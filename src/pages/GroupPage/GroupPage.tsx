@@ -23,7 +23,6 @@ export const GroupPage = memo(() => {
 		}
 	}, [contacts, groupContacts, groupId])
 
-	// Найдем конкретную группу контактов по groupId
 	const selectedGroup = groupContacts.find(group => group.id === groupId)
 
 	return (

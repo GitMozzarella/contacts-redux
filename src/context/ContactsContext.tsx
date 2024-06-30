@@ -4,7 +4,6 @@ import { ContactDto } from 'src/types/dto/ContactDto'
 import { FavoriteContactsDto } from 'src/types/dto/FavoriteContactsDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 
-// Определим типы для состояний
 interface ContactsContextType {
 	contacts: ContactDto[]
 	setContacts: React.Dispatch<React.SetStateAction<ContactDto[]>>
@@ -14,10 +13,8 @@ interface ContactsContextType {
 	setGroupContacts: React.Dispatch<React.SetStateAction<GroupContactsDto[]>>
 }
 
-// Создадим контекст с начальным значением null
 export const ContactsContext = createContext<ContactsContextType | null>(null)
 
-// Создадим провайдер контекста
 export const ContactsProvider = ({
 	children
 }: {

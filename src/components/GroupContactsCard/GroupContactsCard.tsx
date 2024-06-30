@@ -14,7 +14,7 @@ export const GroupContactsCard = memo<GroupContactsCardProps>(
 		const { groupContacts } = useContactsContext()
 
 		if (!groupContacts) {
-			return null // Обработка случая, когда данные о группе контактов недоступны
+			return null
 		}
 
 		const selectedGroup = groupContacts.find(
@@ -22,7 +22,7 @@ export const GroupContactsCard = memo<GroupContactsCardProps>(
 		)
 
 		if (!selectedGroup) {
-			return null // Обработка случая, когда группа контактов не найдена
+			return null
 		}
 
 		const { id, name, description, photo, contactIds } = selectedGroup
