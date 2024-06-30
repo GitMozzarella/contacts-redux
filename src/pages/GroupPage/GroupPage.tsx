@@ -1,46 +1,45 @@
-import React, { memo, useEffect, useState } from 'react'
-import { CommonPageProps } from '../types'
+import { memo, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { ContactCard } from 'src/components/ContactCard'
 import styles from './groupPage.module.scss'
+import { useContactsContext } from 'src/hooks/useContactsContext'
 
-export const GroupPage = memo<CommonPageProps>(
-	({ contactsState, groupContactsState }) => {
-		const { groupId } = useParams<{ groupId: string }>()
-		const [contacts, setContacts] = useState<ContactDto[]>([])
-		const [groupContacts, setGroupContacts] = useState<GroupContactsDto>()
+export const GroupPage = memo(() => {
+	const { groupId } = useParams<{ groupId: string }>()
+	const { contacts, groupContacts } = useContactsContext()
+	const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
-		useEffect(() => {
-			const findGroup = groupContactsState[0].find(({ id }) => id === groupId)
-			setGroupContacts(findGroup)
-			setContacts(() => {
-				if (findGroup) {
-					return contactsState[0].filter(({ id }) =>
-						findGroup.contactIds.includes(id)
-					)
-				}
-				return []
-			})
-		}, [contactsState, groupContactsState, groupId])
+	useEffect(() => {
+		if (groupContacts) {
+			const foundGroup = groupContacts.find(group => group.id === groupId)
+			if (foundGroup) {
+				const filtered = contacts.filter(contact =>
+					foundGroup.contactIds.includes(contact.id)
+				)
+				setFilteredContacts(filtered)
+			}
+		}
+	}, [contacts, groupContacts, groupId])
 
-		return (
-			<div className={styles.groupPage}>
-				{groupContacts && (
-					<div className={styles.groupContactsContainer}>
-						<GroupContactsCard groupContacts={groupContacts} />
-					</div>
-				)}
-				<div className={styles.contactsContainer}>
-					{contacts.map(contact => (
-						<div key={contact.id} className={styles.contactCard}>
-							<ContactCard contact={contact} withLink />
-						</div>
-					))}
+	// Найдем конкретную группу контактов по groupId
+	const selectedGroup = groupContacts.find(group => group.id === groupId)
+
+	return (
+		<div className={styles.groupPage}>
+			{selectedGroup && (
+				<div className={styles.groupContactsContainer}>
+					<GroupContactsCard groupContactsId={selectedGroup.id} withLink />
 				</div>
+			)}
+			<div className={styles.contactsContainer}>
+				{filteredContacts.map(contact => (
+					<div key={contact.id} className={styles.contactCard}>
+						<ContactCard contact={contact} withLink />
+					</div>
+				))}
 			</div>
-		)
-	}
-)
+		</div>
+	)
+})

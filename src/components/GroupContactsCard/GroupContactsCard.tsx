@@ -1,22 +1,42 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
+import { useContactsContext } from 'src/hooks/useContactsContext'
+
 import styles from './groupContactsCard.module.scss'
 
 interface GroupContactsCardProps {
-	groupContacts: GroupContactsDto
+	groupContactsId: string
 	withLink?: boolean
 }
 
 export const GroupContactsCard = memo<GroupContactsCardProps>(
-	({
-		groupContacts: { id, name, description, photo, contactIds },
-		withLink
-	}) => {
+	({ groupContactsId, withLink }) => {
+		const { groupContacts } = useContactsContext()
+
+		if (!groupContacts) {
+			return null // Обработка случая, когда данные о группе контактов недоступны
+		}
+
+		const selectedGroup = groupContacts.find(
+			group => group.id === groupContactsId
+		)
+
+		if (!selectedGroup) {
+			return null // Обработка случая, когда группа контактов не найдена
+		}
+
+		const { id, name, description, photo, contactIds } = selectedGroup
+
 		return (
-			<div className={styles.card} key={id}>
+			<div className={styles.card}>
 				<div className={styles.header}>
-					{withLink ? <Link to={`/groups/${id}`}>{name}</Link> : name}
+					{withLink ? (
+						<Link to={`/groups/${id}`} className={styles.link}>
+							{name}
+						</Link>
+					) : (
+						<span>{name}</span>
+					)}
 				</div>
 				<div className={styles.info}>
 					<img className={styles.img} src={photo} alt={name} />

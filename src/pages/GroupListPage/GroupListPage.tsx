@@ -1,14 +1,16 @@
 import { memo } from 'react'
-import { CommonPageProps } from '../types'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import styles from './groupListPage.module.scss'
+import { useContactsContext } from 'src/hooks/useContactsContext'
 
-export const GroupListPage = memo<CommonPageProps>(({ groupContactsState }) => {
+export const GroupListPage = memo(() => {
+	const { groupContacts } = useContactsContext()
+
 	return (
 		<div className={styles.groupList}>
-			{groupContactsState[0].map(groupContacts => (
-				<div key={groupContacts.id} className={styles.groupItem}>
-					<GroupContactsCard groupContacts={groupContacts} withLink />
+			{groupContacts.map(group => (
+				<div key={group.id} className={styles.groupItem}>
+					<GroupContactsCard groupContactsId={group.id} withLink />
 				</div>
 			))}
 		</div>

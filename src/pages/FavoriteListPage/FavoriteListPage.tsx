@@ -1,30 +1,29 @@
-import React, { memo, useEffect, useState } from 'react'
-import { CommonPageProps } from '../types'
+import { memo, useEffect, useState } from 'react'
 import { ContactCard } from 'src/components/ContactCard'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './favoriteListPage.module.scss'
+import { useContactsContext } from 'src/hooks/useContactsContext'
 
-export const FavoriteListPage = memo<CommonPageProps>(
-	({ favoriteContactsState, contactsState }) => {
-		const [contacts, setContacts] = useState<ContactDto[]>([])
+export const FavoriteListPage = memo(() => {
+	const { contacts, favoriteContacts } = useContactsContext()
+	const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
-		useEffect(() => {
-			const filteredContacts = contactsState[0].filter(({ id }) =>
-				favoriteContactsState[0].includes(id)
-			)
-			setContacts(filteredContacts)
-		}, [contactsState, favoriteContactsState])
-
-		return (
-			<div className={styles.favoriteList}>
-				<div className={styles.contactCardsContainer}>
-					{contacts.map(contact => (
-						<div key={contact.id} className={styles.contactCard}>
-							<ContactCard contact={contact} withLink />
-						</div>
-					))}
-				</div>
-			</div>
+	useEffect(() => {
+		const filtered = contacts.filter(contact =>
+			favoriteContacts.includes(contact.id)
 		)
-	}
-)
+		setFilteredContacts(filtered)
+	}, [contacts, favoriteContacts])
+
+	return (
+		<div className={styles.favoriteList}>
+			<div className={styles.contactCardsContainer}>
+				{filteredContacts.map(contact => (
+					<div key={contact.id} className={styles.contactCard}>
+						<ContactCard contact={contact} withLink />
+					</div>
+				))}
+			</div>
+		</div>
+	)
+})

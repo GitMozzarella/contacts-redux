@@ -1,22 +1,21 @@
 import { FC, useEffect, useState } from 'react'
-import { CommonPageProps } from '../types'
 import { useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { ContactCard } from 'src/components/ContactCard'
 import styles from './contactPage.module.scss'
+import { useContactsContext } from 'src/hooks/useContactsContext'
 
-interface ContactPageProps extends CommonPageProps {}
-
-export const ContactPage: FC<ContactPageProps> = ({ contactsState }) => {
+export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
-	const [contact, setContact] = useState<ContactDto>()
+	const { contacts } = useContactsContext()
+	const [contact, setContact] = useState<ContactDto | undefined>()
 
 	useEffect(() => {
-		const foundContact = contactsState[0].find(({ id }) => id === contactId)
+		const foundContact = contacts.find(({ id }) => id === contactId)
 		if (foundContact) {
 			setContact(foundContact)
 		}
-	}, [contactId, contactsState])
+	}, [contactId, contacts])
 
 	return (
 		<div className={styles.container}>
