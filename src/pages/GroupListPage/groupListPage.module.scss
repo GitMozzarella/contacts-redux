@@ -1,0 +1,49 @@
+/* groupListPage.module.scss */
+
+.groupList {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr); /* 4 колонки равной ширины */
+	gap: 20px; /* Промежуток между элементами */
+	width: 100%;
+	max-width: 1200px; /* Максимальная ширина контейнера */
+	justify-content: center;
+	align-items: center;
+	margin: 20px auto;
+}
+
+.groupItem {
+	padding: 16px; /* Внутренний отступ */
+	border-radius: 8px; /* Закругление углов */
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+	height: 300px;
+	border: 1px solid black;
+}
+
+.groupItem:hover {
+	background-color: #808080; /* Изменение цвета при наведении */
+}
+
+.groupItem h3 {
+	margin-bottom: 8px; /* Отступ снизу для заголовка */
+	font-size: 16px; /* Размер шрифта заголовка */
+}
+
+.groupItem p {
+	font-size: 14px; /* Размер шрифта текста */
+	color: #666; /* Цвет текста */
+}
+
+.groupItem a {
+	color: black; /* Цвет ссылки */
+	text-decoration: none; /* Убрать подчеркивание */
+
+	&:hover {
+		color: rgb(255, 255, 255);
+		text-decoration: none; /* Подчеркивание при наведении */
+	}
+}
