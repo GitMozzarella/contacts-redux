@@ -4,5 +4,6 @@ export enum PathList {
 	contact = '/contacts/:contactId',
 	allGroups = '/groups',
 	group = '/groups/:groupId',
-	favorite = '/favorite'
+	favorite = '/favorite',
+	notFound = '*'
 }
