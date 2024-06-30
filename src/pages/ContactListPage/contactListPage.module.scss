@@ -1,0 +1,57 @@
+.contact_listPage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	gap: 50px;
+	padding-bottom: 50px;
+}
+
+.filter_formContainer {
+	max-width: 600px;
+}
+
+.contact_cardsContainer {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 20px;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+
+	& > div {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.781);
+	}
+}
+
+.contact-card {
+	background-color: #f0f0f0;
+	padding: 16px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+h3 {
+	margin-bottom: 8px;
+	font-size: 16px;
+}
+
+p {
+	font-size: 14px;
+	color: #666;
+}
+
+a {
+	color: #006492;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+		color: #ffffff;
+	}
+}
