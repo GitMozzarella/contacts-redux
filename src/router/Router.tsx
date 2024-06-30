@@ -15,76 +15,90 @@ import { FavoriteListPage } from 'src/pages/FavoriteListPage'
 import { NotFoundPage } from 'src/pages/NotFoundPage'
 
 export const Router = () => {
-	const contactsState = useState<ContactDto[]>(DATA_CONTACT)
-	const favoriteContactsState = useState<FavoriteContactsDto>([
-		DATA_CONTACT[0].id,
-		DATA_CONTACT[1].id,
-		DATA_CONTACT[2].id,
-		DATA_CONTACT[3].id
-	])
-	const groupContactsState = useState<GroupContactsDto[]>(DATA_GROUP_CONTACT)
+	const [contacts, setContacts] = useState<ContactDto[]>(DATA_CONTACT)
+	const [favoriteContacts, setFavoriteContacts] = useState<FavoriteContactsDto>(
+		[
+			DATA_CONTACT[0].id,
+			DATA_CONTACT[1].id,
+			DATA_CONTACT[2].id,
+			DATA_CONTACT[3].id
+		]
+	)
+	const [groupContacts, setGroupContacts] =
+		useState<GroupContactsDto[]>(DATA_GROUP_CONTACT)
 	return (
 		<div>
 			<BrowserRouter>
 				<Routes>
 					<Route path={PathList.home} element={<MainLayout />}>
 						<Route index element={<HomePage />} />
-						<Route path={PathList.allContacts}>
-							<Route
-								index
-								element={
-									<ContactListPage
-										contactsState={contactsState}
-										favoriteContactsState={favoriteContactsState}
-										groupContactsState={groupContactsState}
-									/>
-								}
-							/>
-							<Route
-								path={PathList.contact}
-								element={
-									<ContactPage
-										contactsState={contactsState}
-										favoriteContactsState={favoriteContactsState}
-										groupContactsState={groupContactsState}
-									/>
-								}
-							/>
-						</Route>
-						<Route path={PathList.allGroups}>
-							<Route
-								index
-								element={
-									<GroupListPage
-										contactsState={contactsState}
-										favoriteContactsState={favoriteContactsState}
-										groupContactsState={groupContactsState}
-									/>
-								}
-							/>
-							<Route
-								path={PathList.group}
-								element={
-									<GroupPage
-										contactsState={contactsState}
-										favoriteContactsState={favoriteContactsState}
-										groupContactsState={groupContactsState}
-									/>
-								}
-							/>
-						</Route>
+						<Route
+							path={PathList.allContacts}
+							element={
+								<ContactListPage
+									contactsState={[contacts, setContacts]}
+									favoriteContactsState={[
+										favoriteContacts,
+										setFavoriteContacts
+									]}
+									groupContactsState={[groupContacts, setGroupContacts]}
+								/>
+							}
+						/>
+						<Route
+							path={PathList.contact}
+							element={
+								<ContactPage
+									contactsState={[contacts, setContacts]}
+									favoriteContactsState={[
+										favoriteContacts,
+										setFavoriteContacts
+									]}
+									groupContactsState={[groupContacts, setGroupContacts]}
+								/>
+							}
+						/>
+						<Route
+							path={PathList.allGroups}
+							element={
+								<GroupListPage
+									contactsState={[contacts, setContacts]}
+									favoriteContactsState={[
+										favoriteContacts,
+										setFavoriteContacts
+									]}
+									groupContactsState={[groupContacts, setGroupContacts]}
+								/>
+							}
+						/>
+						<Route
+							path={PathList.group}
+							element={
+								<GroupPage
+									contactsState={[contacts, setContacts]}
+									favoriteContactsState={[
+										favoriteContacts,
+										setFavoriteContacts
+									]}
+									groupContactsState={[groupContacts, setGroupContacts]}
+								/>
+							}
+						/>
 						<Route
 							path={PathList.favorite}
 							element={
 								<FavoriteListPage
-									contactsState={contactsState}
-									favoriteContactsState={favoriteContactsState}
-									groupContactsState={groupContactsState}
+									contactsState={[contacts, setContacts]}
+									favoriteContactsState={[
+										favoriteContacts,
+										setFavoriteContacts
+									]}
+									groupContactsState={[groupContacts, setGroupContacts]}
 								/>
 							}
 						/>
+						<Route path='*' element={<NotFoundPage />} />
 					</Route>
-					<Route path='*' element={<NotFoundPage />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
