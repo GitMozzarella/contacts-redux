@@ -2,6 +2,7 @@ import {
 	SET_CONTACTS,
 	SET_FAVORITE_CONTACTS,
 	SET_GROUP_CONTACTS,
+	SET_FILTERED_FAVORITE_CONTACTS,
 	ContactActionTypes
 } from '../actions/actionTypes'
 import { DATA_CONTACT, DATA_GROUP_CONTACT } from 'src/data'
@@ -29,6 +30,8 @@ export const contactsReducer = (
 			return { ...state, favoriteContacts: action.payload }
 		case SET_GROUP_CONTACTS:
 			return { ...state, groupContacts: action.payload }
+		case SET_FILTERED_FAVORITE_CONTACTS:
+			return { ...state, filteredFavoriteContacts: action.payload }
 		default:
 			return state
 	}

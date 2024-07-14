@@ -2,6 +2,7 @@ import {
 	SET_CONTACTS,
 	SET_FAVORITE_CONTACTS,
 	SET_GROUP_CONTACTS,
+	SET_FILTERED_FAVORITE_CONTACTS,
 	ContactActionTypes
 } from './actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
@@ -25,4 +26,11 @@ export const setGroupContacts = (
 ): ContactActionTypes => ({
 	type: SET_GROUP_CONTACTS,
 	payload: groupContacts
+})
+
+export const setFilteredFavoriteContacts = (
+	contacts: ContactDto[]
+): ContactActionTypes => ({
+	type: SET_FILTERED_FAVORITE_CONTACTS,
+	payload: contacts
 })
