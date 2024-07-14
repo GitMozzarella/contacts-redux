@@ -1,6 +1,10 @@
 .filterForm {
-	width: 100%;
-	max-width: 600px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	height: 100%;
+	max-width: 800px;
 	border-radius: 20px;
 	padding: 20px;
 	margin: 0 auto;
@@ -41,13 +45,14 @@
 
 .formSelect {
 	margin-bottom: 15px;
+	border: 1px solid rgb(117, 117, 117);
+	border-radius: 4px;
 
 	select {
 		min-height: 40px;
 		width: 100%;
 		padding: 8px;
 		font-size: 14px;
-		border: 1px solid #ccc;
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
@@ -78,4 +83,15 @@
 	right: 5px;
 	cursor: pointer;
 	top: 8px;
+}
+
+.buttonsContainer {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+
+	.buttonAdd {
+		padding-bottom: 10px;
+		font-size: 28px;
+	}
 }

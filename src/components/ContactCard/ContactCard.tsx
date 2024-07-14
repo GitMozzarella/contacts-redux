@@ -2,6 +2,8 @@ import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactCard.module.scss'
+import { FaUserEdit } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
 
 interface ContactCardProps {
 	contact: ContactDto
@@ -33,6 +35,14 @@ export const ContactCard = memo<ContactCardProps>(
 							<li className={styles.listGroupItem}>Address: {address}</li>
 						</ul>
 					</div>
+				</div>
+				<div className={styles.buttonsContainer}>
+					<button className={styles.buttonUser}>
+						<FaUserEdit />
+					</button>
+					<button className={styles.buttonUser}>
+						<MdDeleteForever />
+					</button>
 				</div>
 			</div>
 		)

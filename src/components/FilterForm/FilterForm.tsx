@@ -3,6 +3,7 @@ import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import styles from './filterForm.module.scss'
+import { IoPersonAdd } from 'react-icons/io5'
 
 export interface FilterFormValues {
 	name: string
@@ -84,6 +85,11 @@ export const FilterForm = memo(
 							</option>
 						))}
 					</select>
+				</div>
+				<div className={styles.buttonsContainer}>
+					<button className={styles.buttonAdd}>
+						<IoPersonAdd />
+					</button>
 				</div>
 			</form>
 		)

@@ -43,6 +43,7 @@ export const ContactListPage = memo(() => {
 					onSubmit={onSubmit}
 				/>
 			</div>
+
 			<div className={styles.contact_cardsContainer}>
 				{contacts.map(contact => (
 					<ContactCard key={contact.id} contact={contact} withLink />

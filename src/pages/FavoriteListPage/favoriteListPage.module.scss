@@ -13,7 +13,6 @@
 	grid-template-columns: repeat(4, 1fr);
 	gap: 20px;
 	width: 100%;
-	height: 92vh;
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 20px;
@@ -22,12 +21,11 @@
 .contactCard {
 	padding: 16px;
 	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.781);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	max-height: 300px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.781);
+	justify-content: center;
 }
 
 .contactCard:hover {
