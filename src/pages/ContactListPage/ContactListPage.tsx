@@ -1,4 +1,6 @@
 import { memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppState, AppDispatch } from 'src/redux/store'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { ContactCard } from 'src/components/ContactCard'
 import {
@@ -6,10 +8,12 @@ import {
 	FilterFormValues
 } from 'src/components/FilterForm/FilterForm'
 import styles from './contactListPage.module.scss'
-import { useContactsContext } from 'src/hooks/useContactsContext'
+import { setContactsActionCreator } from 'src/redux/actions/actions'
 
 export const ContactListPage = memo(() => {
-	const { contacts, setContacts, groupContacts } = useContactsContext()
+	const dispatch = useDispatch<AppDispatch>()
+	const contacts = useSelector((state: AppState) => state.contacts)
+	const groupContacts = useSelector((state: AppState) => state.groupContacts)
 
 	const onSubmit = (fv: Partial<FilterFormValues>) => {
 		let findContacts: ContactDto[] = contacts
@@ -31,17 +35,13 @@ export const ContactListPage = memo(() => {
 			}
 		}
 
-		setContacts(findContacts)
+		dispatch(setContactsActionCreator(findContacts)) // Теперь TypeScript знает, что это допустимый экшен
 	}
 
 	return (
 		<div className={styles.contact_listPage}>
 			<div className={styles.filter_formContainer}>
-				<FilterForm
-					groupContactsList={groupContacts}
-					initialValues={{}}
-					onSubmit={onSubmit}
-				/>
+				<FilterForm initialValues={{}} onSubmit={onSubmit} />
 			</div>
 
 			<div className={styles.contact_cardsContainer}>

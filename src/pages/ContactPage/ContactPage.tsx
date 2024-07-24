@@ -2,11 +2,12 @@ import { FC, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactPage.module.scss'
-import { useContactsContext } from 'src/hooks/useContactsContext'
+import { useSelector } from 'react-redux'
+import { AppState } from 'src/redux/store'
 
 export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
-	const { contacts } = useContactsContext()
+	const contacts = useSelector((state: AppState) => state.contacts)
 	const [contact, setContact] = useState<ContactDto | undefined>()
 
 	useEffect(() => {
@@ -34,7 +35,6 @@ export const ContactPage: FC = () => {
 								<ul className={styles.listGroup}>
 									<li className={styles.listGroupItem}>
 										<strong>Phone number:</strong>
-
 										<Link
 											className={styles.phone}
 											to={`tel:${contact.phone}`}

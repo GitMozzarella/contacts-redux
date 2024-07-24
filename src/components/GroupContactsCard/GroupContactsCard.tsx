@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { useContactsContext } from 'src/hooks/useContactsContext'
+import { useSelector } from 'react-redux'
+import { AppState } from 'src/redux/store'
 
 import styles from './groupContactsCard.module.scss'
 
@@ -11,7 +12,7 @@ interface GroupContactsCardProps {
 
 export const GroupContactsCard = memo<GroupContactsCardProps>(
 	({ groupContactsId, withLink }) => {
-		const { groupContacts } = useContactsContext()
+		const groupContacts = useSelector((state: AppState) => state.groupContacts)
 
 		if (!groupContacts) {
 			return null

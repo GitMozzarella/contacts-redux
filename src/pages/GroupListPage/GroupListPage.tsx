@@ -1,10 +1,11 @@
 import { memo } from 'react'
+import { useSelector } from 'react-redux'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import styles from './groupListPage.module.scss'
-import { useContactsContext } from 'src/hooks/useContactsContext'
+import { AppState } from 'src/redux/store'
 
 export const GroupListPage = memo(() => {
-	const { groupContacts } = useContactsContext()
+	const groupContacts = useSelector((state: AppState) => state.groupContacts)
 
 	return (
 		<div className={styles.groupList}>

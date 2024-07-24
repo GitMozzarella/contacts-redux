@@ -1,9 +1,10 @@
 import React, { memo, useState, useEffect, useRef } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
-import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
-import styles from './filterForm.module.scss'
+import { useSelector } from 'react-redux'
 import { IoPersonAdd } from 'react-icons/io5'
+import { AppState } from 'src/redux/store'
+import styles from './filterForm.module.scss'
 
 export interface FilterFormValues {
 	name: string
@@ -13,15 +14,17 @@ export interface FilterFormValues {
 interface FilterFormProps {
 	initialValues?: Partial<FilterFormValues>
 	onSubmit: (values: Partial<FilterFormValues>) => void
-	groupContactsList: GroupContactsDto[]
 }
 
 export const FilterForm = memo(
 	({
 		initialValues = { name: '', groupId: '' },
-		onSubmit,
-		groupContactsList
+		onSubmit
 	}: FilterFormProps) => {
+		const groupContactsList = useSelector(
+			(state: AppState) => state.groupContacts
+		)
+
 		const [values, setValues] = useState<FilterFormValues>({
 			name: initialValues.name || '',
 			groupId: initialValues.groupId || ''
@@ -74,7 +77,7 @@ export const FilterForm = memo(
 					<select
 						id='groupId'
 						name='groupId'
-						aria-label='Поиск по группе'
+						aria-label='Search by group'
 						value={values.groupId}
 						onChange={handleChange}
 					>

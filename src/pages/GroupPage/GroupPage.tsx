@@ -1,18 +1,20 @@
 import { memo, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { ContactCard } from 'src/components/ContactCard'
 import styles from './groupPage.module.scss'
-import { useContactsContext } from 'src/hooks/useContactsContext'
+import { AppState } from 'src/redux/store'
 
 export const GroupPage = memo(() => {
 	const { groupId } = useParams<{ groupId: string }>()
-	const { contacts, groupContacts } = useContactsContext()
+	const contacts = useSelector((state: AppState) => state.contacts)
+	const groupContacts = useSelector((state: AppState) => state.groupContacts)
 	const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
 	useEffect(() => {
-		if (groupContacts) {
+		if (groupContacts.length > 0 && contacts.length > 0) {
 			const foundGroup = groupContacts.find(group => group.id === groupId)
 			if (foundGroup) {
 				const filtered = contacts.filter(contact =>
