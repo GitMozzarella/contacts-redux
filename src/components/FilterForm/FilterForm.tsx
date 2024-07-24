@@ -1,9 +1,10 @@
 import React, { memo, useState, useEffect, useRef } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { IoPersonAdd } from 'react-icons/io5'
-import { AppState } from 'src/redux/store'
+import { AppState, AppDispatch } from 'src/redux/store'
+import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './filterForm.module.scss'
 
 export interface FilterFormValues {
@@ -21,18 +22,21 @@ export const FilterForm = memo(
 		initialValues = { name: '', groupId: '' },
 		onSubmit
 	}: FilterFormProps) => {
+		const dispatch = useDispatch<AppDispatch>()
 		const groupContactsList = useSelector(
 			(state: AppState) => state.groupContacts
 		)
+		const filterValues = useSelector((state: AppState) => state.filter)
 
 		const [values, setValues] = useState<FilterFormValues>({
-			name: initialValues.name || '',
-			groupId: initialValues.groupId || ''
+			name: filterValues.name || '',
+			groupId: filterValues.groupId || ''
 		})
 
 		const debouncedSubmitRef = useRef(
 			debounce((updatedValues: FilterFormValues) => {
 				onSubmit(updatedValues)
+				dispatch(setFilterValuesActionCreator(updatedValues))
 			}, 300)
 		)
 
@@ -52,6 +56,7 @@ export const FilterForm = memo(
 
 		const handleClear = () => {
 			setValues({ name: '', groupId: '' })
+			dispatch(setFilterValuesActionCreator({ name: '', groupId: '' }))
 		}
 
 		return (
