@@ -1,6 +1,4 @@
 import { memo, useState, useMemo, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppState, AppDispatch } from 'src/redux/store'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { ContactCard } from 'src/components/ContactCard'
 import {
@@ -9,12 +7,13 @@ import {
 } from 'src/components/FilterForm/FilterForm'
 import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './contactListPage.module.scss'
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 
 export const ContactListPage = memo(() => {
-	const dispatch = useDispatch<AppDispatch>()
-	const contacts = useSelector((state: AppState) => state.contacts)
-	const groupContacts = useSelector((state: AppState) => state.groupContacts)
-	const filter = useSelector((state: AppState) => state.filter)
+	const dispatch = useAppDispatch()
+	const contacts = useAppSelector(state => state.contacts)
+	const groupContacts = useAppSelector(state => state.groupContacts)
+	const filter = useAppSelector(state => state.filter)
 
 	const [filteredContacts, setFilteredContacts] =
 		useState<ContactDto[]>(contacts)

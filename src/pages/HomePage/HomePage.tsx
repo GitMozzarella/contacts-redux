@@ -1,8 +1,14 @@
+import { useAppStore } from 'src/redux/hooks'
 import styles from './home.module.scss'
 
 export const HomePage = () => {
+	const store = useAppStore()
+
+	const onHomePageClick = () => {
+		console.log('Вы кликнули по домашней странице', store.getState())
+	}
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} onClick={onHomePageClick}>
 			<h1>Добро пожаловать!</h1>
 			<p>
 				Это домашняя страница вашего приложения контакты. Здесь вы можете

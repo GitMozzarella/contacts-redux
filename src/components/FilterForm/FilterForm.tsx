@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect, useRef } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { IoPersonAdd } from 'react-icons/io5'
-import { AppState, AppDispatch } from 'src/redux/store'
+import { RootState } from 'src/redux/store'
 import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './filterForm.module.scss'
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 
 export interface FilterFormValues {
 	name: string
@@ -22,11 +23,11 @@ export const FilterForm = memo(
 		initialValues = { name: '', groupId: '' },
 		onSubmit
 	}: FilterFormProps) => {
-		const dispatch = useDispatch<AppDispatch>()
+		const dispatch = useAppDispatch()
 		const groupContactsList = useSelector(
-			(state: AppState) => state.groupContacts
+			(state: RootState) => state.groupContacts
 		)
-		const filterValues = useSelector((state: AppState) => state.filter)
+		const filterValues = useAppSelector(state => state.filter)
 
 		const [values, setValues] = useState<FilterFormValues>({
 			name: filterValues.name || '',

@@ -2,12 +2,11 @@ import { FC, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactPage.module.scss'
-import { useSelector } from 'react-redux'
-import { AppState } from 'src/redux/store'
+import { useAppSelector } from 'src/redux/hooks'
 
 export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
-	const contacts = useSelector((state: AppState) => state.contacts)
+	const contacts = useAppSelector(state => state.contacts)
 	const [contact, setContact] = useState<ContactDto | undefined>()
 
 	useEffect(() => {
