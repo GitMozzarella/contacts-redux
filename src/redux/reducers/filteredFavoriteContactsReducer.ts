@@ -1,14 +1,12 @@
-import {
-	SET_FILTERED_FAVORITE_CONTACTS,
-	SetFilteredFavoriteContactsAction
-} from '../actions/actionTypes'
+import { ProjectActions } from '../actions/actions'
+import { SET_FILTERED_FAVORITE_CONTACTS } from '../actions/actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
 
 const initialFilteredFavoriteContactsState: ContactDto[] = []
 
 export const filteredFavoriteContactsReducer = (
 	state = initialFilteredFavoriteContactsState,
-	action: SetFilteredFavoriteContactsAction
+	action: ProjectActions
 ): ContactDto[] => {
 	switch (action.type) {
 		case SET_FILTERED_FAVORITE_CONTACTS:

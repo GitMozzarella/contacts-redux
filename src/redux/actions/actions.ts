@@ -16,7 +16,7 @@ import { FilterFormValues } from 'src/components/FilterForm/FilterForm'
 
 export function setContactsActionCreator(
 	contacts: ContactDto[]
-): SetContactsAction {
+): ProjectActions {
 	return {
 		type: SET_CONTACTS,
 		payload: contacts
@@ -25,7 +25,7 @@ export function setContactsActionCreator(
 
 export function setFavoriteContactsActionCreator(
 	favoriteContacts: string[]
-): SetFavoriteContactsAction {
+): ProjectActions {
 	return {
 		type: SET_FAVORITE_CONTACTS,
 		payload: favoriteContacts
@@ -34,7 +34,7 @@ export function setFavoriteContactsActionCreator(
 
 export function setGroupContactsActionCreator(
 	groupContacts: GroupContactsDto[]
-): SetGroupContactsAction {
+): ProjectActions {
 	return {
 		type: SET_GROUP_CONTACTS,
 		payload: groupContacts
@@ -43,7 +43,7 @@ export function setGroupContactsActionCreator(
 
 export function setFilteredFavoriteContactsActionCreator(
 	contacts: ContactDto[]
-): SetFilteredFavoriteContactsAction {
+): ProjectActions {
 	return {
 		type: SET_FILTERED_FAVORITE_CONTACTS,
 		payload: contacts
@@ -52,9 +52,16 @@ export function setFilteredFavoriteContactsActionCreator(
 
 export function setFilterValuesActionCreator(
 	values: Partial<FilterFormValues>
-): SetFilterValuesAction {
+): ProjectActions {
 	return {
 		type: SET_FILTER_VALUES,
 		payload: values
 	}
 }
+
+export type ProjectActions =
+	| SetContactsAction
+	| SetFavoriteContactsAction
+	| SetGroupContactsAction
+	| SetFilteredFavoriteContactsAction
+	| SetFilterValuesAction
