@@ -5,15 +5,15 @@ import { groupContactsReducer } from './reducers/groupContactsReducer'
 import { filteredFavoriteContactsReducer } from './reducers/filteredFavoriteContactsReducer'
 import { filterReducer } from './reducers/filterReducer'
 
-export const rootReducer = combineReducers({
-	contacts: contactsReducer,
-	favoriteContacts: favoriteContactsReducer,
-	groupContacts: groupContactsReducer,
-	filteredFavoriteContacts: filteredFavoriteContactsReducer,
-	filter: filterReducer
-})
+export const store = createStore(
+	combineReducers({
+		contacts: contactsReducer,
+		favoriteContacts: favoriteContactsReducer,
+		groupContacts: groupContactsReducer,
+		filteredFavoriteContacts: filteredFavoriteContactsReducer,
+		filter: filterReducer
+	})
+)
 
-export const store = createStore(rootReducer)
-
-export type AppState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
