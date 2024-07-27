@@ -6,7 +6,11 @@ import {
 	SetFavoriteContactsAction,
 	SetContactsAction,
 	SetGroupContactsAction,
-	SetFilterValuesAction
+	SetFilterValuesAction,
+	TOGGLE_FAVORITE_CONTACT,
+	ToggleFavoriteContactAction,
+	DeleteContactAction,
+	DELETE_CONTACT
 } from './actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
@@ -48,8 +52,23 @@ export function setFilterValuesActionCreator(
 	}
 }
 
+export const toggleFavoriteContactActionCreator = (
+	contactId: string
+): ToggleFavoriteContactAction => ({
+	type: TOGGLE_FAVORITE_CONTACT,
+	payload: contactId
+})
+export const deleteContactActionCreator = (
+	contactId: string
+): DeleteContactAction => ({
+	type: DELETE_CONTACT,
+	payload: contactId
+})
+
 export type ProjectActions =
 	| SetContactsAction
 	| SetFavoriteContactsAction
 	| SetGroupContactsAction
 	| SetFilterValuesAction
+	| ToggleFavoriteContactAction
+	| DeleteContactAction
