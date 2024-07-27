@@ -3,11 +3,9 @@ import {
 	SET_FAVORITE_CONTACTS,
 	SET_GROUP_CONTACTS,
 	SET_FILTER_VALUES,
-	SET_FILTERED_FAVORITE_CONTACTS,
 	SetFavoriteContactsAction,
 	SetContactsAction,
 	SetGroupContactsAction,
-	SetFilteredFavoriteContactsAction,
 	SetFilterValuesAction
 } from './actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
@@ -41,15 +39,6 @@ export function setGroupContactsActionCreator(
 	}
 }
 
-export function setFilteredFavoriteContactsActionCreator(
-	contacts: ContactDto[]
-): ProjectActions {
-	return {
-		type: SET_FILTERED_FAVORITE_CONTACTS,
-		payload: contacts
-	}
-}
-
 export function setFilterValuesActionCreator(
 	values: Partial<FilterFormValues>
 ): ProjectActions {
@@ -63,5 +52,4 @@ export type ProjectActions =
 	| SetContactsAction
 	| SetFavoriteContactsAction
 	| SetGroupContactsAction
-	| SetFilteredFavoriteContactsAction
 	| SetFilterValuesAction

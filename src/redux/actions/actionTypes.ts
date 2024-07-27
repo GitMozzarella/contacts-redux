@@ -5,7 +5,6 @@ import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 export const SET_CONTACTS = 'SET_CONTACTS'
 export const SET_FAVORITE_CONTACTS = 'SET_FAVORITE_CONTACTS'
 export const SET_GROUP_CONTACTS = 'SET_GROUP_CONTACTS'
-export const SET_FILTERED_FAVORITE_CONTACTS = 'SET_FILTERED_FAVORITE_CONTACTS'
 export const SET_FILTER_VALUES = 'SET_FILTER_VALUES'
 export interface SetContactsAction {
 	type: typeof SET_CONTACTS
@@ -16,15 +15,9 @@ export interface SetFavoriteContactsAction {
 	type: typeof SET_FAVORITE_CONTACTS
 	payload: string[]
 }
-
 export interface SetGroupContactsAction {
 	type: typeof SET_GROUP_CONTACTS
 	payload: GroupContactsDto[]
-}
-
-export interface SetFilteredFavoriteContactsAction {
-	type: typeof SET_FILTERED_FAVORITE_CONTACTS
-	payload: ContactDto[]
 }
 
 export interface SetFilterValuesAction {
