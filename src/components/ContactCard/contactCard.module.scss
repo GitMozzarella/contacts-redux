@@ -43,4 +43,18 @@
 		font-weight: 600;
 		margin: 0;
 	}
+
+	.buttonsContainer {
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+
+		button {
+			font-size: 24px;
+		}
+
+		.buttonFavorite {
+			color: rgba(190, 2, 2, 0.911);
+		}
+	}
 }
