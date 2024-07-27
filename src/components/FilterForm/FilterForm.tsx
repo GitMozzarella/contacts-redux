@@ -1,9 +1,7 @@
 import React, { memo, useState, useEffect, useRef } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
-import { useSelector } from 'react-redux'
 import { IoPersonAdd } from 'react-icons/io5'
-import { RootState } from 'src/redux/store'
 import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './filterForm.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
@@ -24,14 +22,12 @@ export const FilterForm = memo(
 		onSubmit
 	}: FilterFormProps) => {
 		const dispatch = useAppDispatch()
-		const groupContactsList = useSelector(
-			(state: RootState) => state.groupContacts
-		)
+		const groupContactsList = useAppSelector(state => state.groupContacts)
 		const filterValues = useAppSelector(state => state.filter)
 
 		const [values, setValues] = useState<FilterFormValues>({
-			name: filterValues.name || '',
-			groupId: filterValues.groupId || ''
+			name: initialValues.name || filterValues.name || '',
+			groupId: initialValues.groupId || filterValues.groupId || ''
 		})
 
 		const debouncedSubmitRef = useRef(
@@ -44,6 +40,13 @@ export const FilterForm = memo(
 		useEffect(() => {
 			debouncedSubmitRef.current(values)
 		}, [values])
+
+		useEffect(() => {
+			const debouncedSubmit = debouncedSubmitRef.current
+			return () => {
+				debouncedSubmit.cancel()
+			}
+		}, [])
 
 		const handleChange = (
 			e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -96,7 +99,7 @@ export const FilterForm = memo(
 					</select>
 				</div>
 				<div className={styles.buttonsContainer}>
-					<button className={styles.buttonAdd}>
+					<button className={styles.buttonAdd} type='button'>
 						<IoPersonAdd />
 					</button>
 				</div>
