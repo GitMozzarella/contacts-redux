@@ -3,6 +3,7 @@ import { ContactCard } from 'src/components/ContactCard'
 import styles from './favoriteListPage.module.scss'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { useAppSelector } from 'src/redux/hooks'
+import { EmptyListFavorites } from 'src/constants/variables'
 
 const findContactsByIds = (
 	ids: string[],
@@ -24,13 +25,17 @@ export const FavoriteListPage = memo(() => {
 
 	return (
 		<div className={styles.favoriteList}>
-			<div className={styles.contactCardsContainer}>
-				{filteredFavoriteContacts.map(contact => (
-					<div key={contact.id} className={styles.contactCard}>
-						<ContactCard contact={contact} withLink />
-					</div>
-				))}
-			</div>
+			{filteredFavoriteContacts.length === 0 ? (
+				<div className={styles.emptyListFavorites}>{EmptyListFavorites}</div>
+			) : (
+				<div className={styles.contactCardsContainer}>
+					{filteredFavoriteContacts.map(contact => (
+						<div key={contact.id} className={styles.contactCard}>
+							<ContactCard contact={contact} withLink />
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	)
 })

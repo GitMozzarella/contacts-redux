@@ -2,10 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
 	height: 100%;
-	gap: 50px;
 	padding-bottom: 50px;
+	text-align: center;
 }
 
 .contactCardsContainer {
@@ -26,10 +27,10 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-}
 
-.contactCard:hover {
-	background-color: #808080;
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .contactCard h3 {
@@ -49,4 +50,23 @@
 	&:hover {
 		color: white;
 	}
+}
+
+.emptyListFavorites {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 75vh;
+
+	font-weight: 800;
+	text-align: center;
+	font-size: 2rem;
+	font-family: 'Russo One', sans-serif;
+
+	background-image: url('../../../public/images/favoritesEmpty.png');
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
 }

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { FaUserEdit } from 'react-icons/fa'
 import { MdDeleteForever, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { FcHome } from 'react-icons/fc'
+import { FaBirthdayCake, FaPhone } from 'react-icons/fa'
 import {
 	deleteContactActionCreator,
 	toggleFavoriteContactActionCreator
@@ -40,7 +42,8 @@ export const ContactCard = memo<ContactCardProps>(
 					<div className={styles.cardBody}>
 						<ul className={styles.listGroup}>
 							<li className={styles.listGroupItem}>
-								Phone:
+								<FaPhone />
+								{'   '}
 								<Link
 									className={styles.phone}
 									to={`tel:${phone}`}
@@ -49,8 +52,12 @@ export const ContactCard = memo<ContactCardProps>(
 									{phone}
 								</Link>
 							</li>
-							<li className={styles.listGroupItem}>Birthday: {birthday}</li>
-							<li className={styles.listGroupItem}>Address: {address}</li>
+							<li className={styles.listGroupItem}>
+								<FaBirthdayCake /> {'   '} {birthday}
+							</li>
+							<li className={styles.listGroupItem}>
+								<FcHome /> {'   '} {address}
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -62,11 +69,11 @@ export const ContactCard = memo<ContactCardProps>(
 							<MdFavoriteBorder className={styles.buttonFavorite} />
 						)}
 					</button>
-					<button className={styles.buttonUser}>
-						<FaUserEdit />
+					<button>
+						<FaUserEdit className={styles.buttonUser} />
 					</button>
-					<button className={styles.buttonUser} onClick={handleDelete}>
-						<MdDeleteForever />
+					<button onClick={handleDelete}>
+						<MdDeleteForever className={styles.buttonUser} />
 					</button>
 				</div>
 			</div>
