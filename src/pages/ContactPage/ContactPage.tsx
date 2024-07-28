@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactPage.module.scss'
 import { useAppSelector } from 'src/redux/hooks'
+import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
 
 export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
@@ -33,7 +34,10 @@ export const ContactPage: FC = () => {
 							<div className={styles.infoContact}>
 								<ul className={styles.listGroup}>
 									<li className={styles.listGroupItem}>
-										<strong>Phone number:</strong>
+										<strong>
+											{' '}
+											<FcPhone /> {'   '}
+										</strong>
 										<Link
 											className={styles.phone}
 											to={`tel:${contact.phone}`}
@@ -43,10 +47,16 @@ export const ContactPage: FC = () => {
 										</Link>
 									</li>
 									<li className={styles.listGroupItem}>
-										<strong>Date of birthday:</strong> {contact.birthday}
+										<strong>
+											<FcCalendar /> {'   '}{' '}
+										</strong>{' '}
+										{contact.birthday}
 									</li>
 									<li className={styles.listGroupItem}>
-										<strong>Address:</strong> {contact.address}
+										<strong>
+											<FcHome /> {'   '}
+										</strong>{' '}
+										{contact.address}
 									</li>
 								</ul>
 							</div>
