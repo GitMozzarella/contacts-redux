@@ -46,11 +46,10 @@ p {
 }
 
 a {
-	color: #006492;
+	color: #000000;
 	text-decoration: none;
 
 	&:hover {
-		text-decoration: underline;
 		color: #ffffff;
 	}
 }
@@ -62,6 +61,6 @@ a {
 
 	.buttonUser {
 		font-size: 24px;
-		color: #006492;
+		color: #020202;
 	}
 }

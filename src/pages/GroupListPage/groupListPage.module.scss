@@ -1,49 +1,44 @@
-/* groupListPage.module.scss */
-
 .groupList {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr); /* 4 колонки равной ширины */
-	gap: 20px; /* Промежуток между элементами */
+	grid-template-columns: repeat(4, 1fr);
+	gap: 20px;
 	width: 100%;
-	max-width: 1200px; /* Максимальная ширина контейнера */
+	max-width: 1200px;
 	justify-content: center;
 	align-items: center;
 	margin: 20px auto;
 }
 
 .groupItem {
-	padding: 16px; /* Внутренний отступ */
-	border-radius: 8px; /* Закругление углов */
-
+	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	width: 400px;
 	height: 300px;
-	border: 1px solid black;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.781);
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
-.groupItem:hover {
-	background-color: #808080; /* Изменение цвета при наведении */
-}
-
-.groupItem h3 {
-	margin-bottom: 8px; /* Отступ снизу для заголовка */
-	font-size: 16px; /* Размер шрифта заголовка */
+.groupItem h1 {
+	margin-bottom: 8px;
+	font-size: 10px;
 }
 
 .groupItem p {
-	font-size: 14px; /* Размер шрифта текста */
-	color: #666; /* Цвет текста */
+	font-size: 5px;
+	color: #666;
 }
 
 .groupItem a {
-	color: black; /* Цвет ссылки */
-	text-decoration: none; /* Убрать подчеркивание */
-
+	color: black;
+	text-decoration: none;
 	&:hover {
 		color: rgb(255, 255, 255);
-		text-decoration: none; /* Подчеркивание при наведении */
+		text-decoration: none;
 	}
 }
