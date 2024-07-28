@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { FaUserEdit } from 'react-icons/fa'
 import { MdDeleteForever, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { FcHome } from 'react-icons/fc'
-import { FaBirthdayCake, FaPhone } from 'react-icons/fa'
+import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
+import { openConfirmModal } from '@mantine/modals'
 import {
 	deleteContactActionCreator,
 	toggleFavoriteContactActionCreator
 } from 'src/redux/actions/actions'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactCard.module.scss'
+import { notifications } from '@mantine/notifications'
 
 interface ContactCardProps {
 	contact: ContactDto
@@ -26,10 +27,37 @@ export const ContactCard = memo<ContactCardProps>(
 
 		const handleToggleFavorite = () => {
 			dispatch(toggleFavoriteContactActionCreator(id))
+			notifications.show({
+				title: 'Уведомление',
+				message: isFavorite
+					? `${name} удален из избранных`
+					: `${name} добавлен в избранные`,
+				color: isFavorite ? 'red' : 'green',
+				autoClose: 2500,
+				styles: {
+					root: {
+						backgroundColor: isFavorite ? '#fdb2b2' : '#a1fca1'
+					}
+				}
+			})
 		}
 
 		const handleDelete = () => {
-			dispatch(deleteContactActionCreator(id))
+			openConfirmModal({
+				title: 'Подтверждение удаления',
+				children: <p>Вы уверены, что хотите удалить {name}?</p>,
+				labels: { confirm: 'Удалить', cancel: 'Отмена' },
+				confirmProps: { color: 'blue' },
+				onConfirm: () => {
+					dispatch(deleteContactActionCreator(id))
+					notifications.show({
+						title: 'Уведомление',
+						message: 'Контакт успешно удалён',
+						limit: 5,
+						position: 'top-center'
+					})
+				}
+			})
 		}
 
 		return (
@@ -42,7 +70,7 @@ export const ContactCard = memo<ContactCardProps>(
 					<div className={styles.cardBody}>
 						<ul className={styles.listGroup}>
 							<li className={styles.listGroupItem}>
-								<FaPhone />
+								<FcPhone />
 								{'   '}
 								<Link
 									className={styles.phone}
@@ -53,7 +81,7 @@ export const ContactCard = memo<ContactCardProps>(
 								</Link>
 							</li>
 							<li className={styles.listGroupItem}>
-								<FaBirthdayCake /> {'   '} {birthday}
+								<FcCalendar /> {'   '} {birthday}
 							</li>
 							<li className={styles.listGroupItem}>
 								<FcHome /> {'   '} {address}
