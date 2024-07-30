@@ -5,6 +5,7 @@ import { IoPersonAdd } from 'react-icons/io5'
 import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './filterForm.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
+import { AddContactModal } from '../AddContactModal/AddContactModal'
 
 export interface FilterFormValues {
 	name: string
@@ -29,6 +30,8 @@ export const FilterForm = memo(
 			name: initialValues.name || filterValues.name || '',
 			groupId: initialValues.groupId || filterValues.groupId || ''
 		})
+
+		const [isModalOpen, setIsModalOpen] = useState(false)
 
 		const debouncedSubmitRef = useRef(
 			debounce((updatedValues: FilterFormValues) => {
@@ -99,10 +102,18 @@ export const FilterForm = memo(
 					</select>
 				</div>
 				<div className={styles.buttonsContainer}>
-					<button className={styles.buttonAdd} type='button'>
+					<button
+						className={styles.buttonAdd}
+						type='button'
+						onClick={() => setIsModalOpen(true)}
+					>
 						<IoPersonAdd />
 					</button>
 				</div>
+				<AddContactModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+				/>
 			</form>
 		)
 	}
