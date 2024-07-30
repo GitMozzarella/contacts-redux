@@ -8,6 +8,7 @@ export const SET_GROUP_CONTACTS = 'SET_GROUP_CONTACTS'
 export const SET_FILTER_VALUES = 'SET_FILTER_VALUES'
 export const TOGGLE_FAVORITE_CONTACT = 'TOGGLE_FAVORITE_CONTACT'
 export const DELETE_CONTACT = 'DELETE_CONTACT'
+export const ADD_CONTACT = 'ADD_CONTACT'
 export interface SetContactsAction {
 	type: typeof SET_CONTACTS
 	payload: ContactDto[]
@@ -28,6 +29,11 @@ export interface ToggleFavoriteContactAction {
 export interface DeleteContactAction {
 	type: typeof DELETE_CONTACT
 	payload: string
+}
+
+export interface AddContactAction {
+	type: typeof ADD_CONTACT
+	payload: ContactDto
 }
 
 export interface SetFilterValuesAction {
