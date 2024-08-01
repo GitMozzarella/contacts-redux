@@ -9,6 +9,7 @@ export const SET_FILTER_VALUES = 'SET_FILTER_VALUES'
 export const TOGGLE_FAVORITE_CONTACT = 'TOGGLE_FAVORITE_CONTACT'
 export const DELETE_CONTACT = 'DELETE_CONTACT'
 export const ADD_CONTACT = 'ADD_CONTACT'
+export const EDIT_CONTACT = 'EDIT_CONTACT'
 export interface SetContactsAction {
 	type: typeof SET_CONTACTS
 	payload: ContactDto[]
@@ -39,4 +40,9 @@ export interface AddContactAction {
 export interface SetFilterValuesAction {
 	type: typeof SET_FILTER_VALUES
 	payload: Partial<FilterFormValues>
+}
+
+export interface EditContactAction {
+	type: typeof EDIT_CONTACT
+	payload: ContactDto
 }
