@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Button, TextInput } from '@mantine/core'
 import { useAppDispatch } from 'src/redux/hooks'
-import { addContactActionCreator } from 'src/redux/actions/actions'
+import {
+	addContactActionCreator,
+	editContactActionCreator
+} from 'src/redux/actions/actions'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { v4 as uuidv4 } from 'uuid'
 import { useForm } from 'react-hook-form'
@@ -16,19 +19,21 @@ import {
 interface AddContactModalProps {
 	isOpen: boolean
 	onClose: () => void
+	initialData?: ContactDto
 }
 
 export const AddContactModal: React.FC<AddContactModalProps> = ({
 	isOpen,
-	onClose
+	onClose,
+	initialData
 }) => {
 	const dispatch = useAppDispatch()
-
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		trigger,
+		reset,
 		formState: { errors }
 	} = useForm<ContactDto>({
 		defaultValues: {
@@ -41,12 +46,25 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		mode: 'onChange'
 	})
 
+	useEffect(() => {
+		if (initialData) {
+			reset(initialData)
+		}
+	}, [initialData, reset])
+
 	const onSubmit = (values: Omit<ContactDto, 'id'>) => {
 		const newContact: ContactDto = {
-			id: uuidv4(),
+			id: initialData?.id || uuidv4(),
 			...values
 		}
-		dispatch(addContactActionCreator(newContact))
+
+		if (initialData) {
+			dispatch(editContactActionCreator(newContact))
+		} else {
+			dispatch(addContactActionCreator(newContact))
+		}
+
+		reset()
 		onClose()
 	}
 
@@ -54,69 +72,55 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		fieldName: keyof ContactDto,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		setValue(fieldName, event.target.value)
-		await trigger(fieldName)
+		setValue(fieldName, event.target.value, { shouldValidate: true })
+		trigger(fieldName, { shouldFocus: false })
 	}
 
 	return (
-		<Modal opened={isOpen} onClose={onClose} title='Add New Contact'>
+		<Modal
+			opened={isOpen}
+			onClose={onClose}
+			title={initialData ? 'Редактировать контакт' : 'Добавить контакт'}
+		>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<TextInput
-					label='Name'
+					label='Имя'
 					placeholder='John Wick'
-					{...register('name', {
-						required: 'Field cannot be empty',
-						validate: validateName
-					})}
-					onChange={event => handleChange('name', event)}
+					{...register('name', { validate: validateName })}
+					onChange={e => handleChange('name', e)}
 					error={errors.name?.message}
 				/>
 				<TextInput
-					label='Phone'
-					placeholder='+78652335620'
+					label='Телефон'
+					placeholder='+1234567890123'
 					{...register('phone', {
-						required: 'Field cannot be empty',
-						validate: validatePhone
+						validate: validatePhone,
+						onChange: e => handlePhoneChange(e, setValue, trigger)
 					})}
-					onChange={event => handlePhoneChange(event, setValue)}
 					error={errors.phone?.message}
 				/>
 				<TextInput
-					label='Birthday'
+					label='День рождения'
 					placeholder='21.05.1995'
-					{...register('birthday', {
-						required: 'Field cannot be empty',
-						validate: validateDate
-					})}
-					onInput={e => {
-						e.currentTarget.value = e.currentTarget.value.replace(
-							/[^0-9.]/g,
-							''
-						)
-					}}
-					onChange={event => handleChange('birthday', event)}
+					{...register('birthday', { validate: validateDate })}
+					onChange={e => handleChange('birthday', e)}
 					error={errors.birthday?.message}
 				/>
 				<TextInput
-					label='Address'
-					placeholder="Lenin's Avenue"
-					{...register('address', {
-						required: 'Field cannot be empty',
-						validate: validateAddress
-					})}
-					onChange={event => handleChange('address', event)}
+					label='Адрес'
+					placeholder='Lenin’s Avenue'
+					{...register('address', { validate: validateAddress })}
+					onChange={e => handleChange('address', e)}
 					error={errors.address?.message}
 				/>
 				<TextInput
-					label='Photo URL'
+					label='Фото URL'
 					placeholder='Enter photo URL'
-					{...register('photo', {
-						required: 'Field cannot be empty'
-					})}
-					onChange={event => handleChange('photo', event)}
+					{...register('photo', { required: 'URL фото обязателен' })}
+					onChange={e => handleChange('photo', e)}
 					error={errors.photo?.message}
 				/>
-				<Button type='submit'>Add Contact</Button>
+				<Button type='submit'>{initialData ? 'Сохранить' : 'Добавить'}</Button>
 			</form>
 		</Modal>
 	)
