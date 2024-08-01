@@ -12,7 +12,9 @@ import {
 	DeleteContactAction,
 	DELETE_CONTACT,
 	AddContactAction,
-	ADD_CONTACT
+	ADD_CONTACT,
+	EDIT_CONTACT,
+	EditContactAction
 } from './actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
@@ -74,6 +76,13 @@ export const addContactActionCreator = (
 	payload: contact
 })
 
+export const editContactActionCreator = (
+	contact: ContactDto
+): EditContactAction => ({
+	type: EDIT_CONTACT,
+	payload: contact
+})
+
 export type ProjectActions =
 	| SetContactsAction
 	| SetFavoriteContactsAction
@@ -82,3 +91,4 @@ export type ProjectActions =
 	| ToggleFavoriteContactAction
 	| DeleteContactAction
 	| AddContactAction
+	| EditContactAction
