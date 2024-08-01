@@ -1,7 +1,8 @@
 import {
 	DELETE_CONTACT,
 	SET_CONTACTS,
-	ADD_CONTACT
+	ADD_CONTACT,
+	EDIT_CONTACT
 } from '../actions/actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { DATA_CONTACT } from 'src/data'
@@ -23,6 +24,11 @@ export const contactsReducer = (
 
 		case ADD_CONTACT:
 			return [...state, action.payload]
+
+		case EDIT_CONTACT:
+			return state.map(contact =>
+				contact.id === action.payload.id ? action.payload : contact
+			)
 
 		default:
 			return state
