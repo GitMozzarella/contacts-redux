@@ -4,7 +4,11 @@ import { ContactDto } from 'src/types/dto/ContactDto'
 // Валидация номера
 export const handlePhoneChange = (
 	event: React.ChangeEvent<HTMLInputElement>,
-	setValue: UseFormSetValue<ContactDto>
+	setValue: UseFormSetValue<ContactDto>,
+	trigger: (
+		name: keyof ContactDto,
+		options?: { shouldFocus: boolean }
+	) => Promise<boolean>
 ) => {
 	let value = event.currentTarget.value
 	value = value.replace(/[^0-9]/g, '')
@@ -12,6 +16,7 @@ export const handlePhoneChange = (
 		value = `+${value}`
 	}
 	setValue('phone', value.slice(0, 13))
+	trigger('phone', { shouldFocus: false })
 }
 
 export const validatePhone = (value: string) => {
@@ -41,7 +46,7 @@ export const validateDate = (value: string) => {
 		return 'Month must be between 01 and 12'
 	}
 
-	// ВАлидация дня
+	// Валидация дня
 	const daysInMonth = new Date(year, month, 0).getDate()
 	if (day < 1 || day > daysInMonth) {
 		return 'Day must be valid for the given month'
