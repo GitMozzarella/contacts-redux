@@ -14,11 +14,14 @@ import {
 	AddContactAction,
 	ADD_CONTACT,
 	EDIT_CONTACT,
-	EditContactAction
+	EditContactAction,
+	SET_AUTH,
+	SetAuthAction
 } from './actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { FilterFormValues } from 'src/components/FilterForm/FilterForm'
+import { AuthState } from '../reducers/authReducer'
 
 export function setContactsActionCreator(
 	contacts: ContactDto[]
@@ -83,6 +86,13 @@ export const editContactActionCreator = (
 	payload: contact
 })
 
+export function setAuthActionCreator(authState: AuthState): ProjectActions {
+	return {
+		type: SET_AUTH,
+		payload: authState
+	}
+}
+
 export type ProjectActions =
 	| SetContactsAction
 	| SetFavoriteContactsAction
@@ -92,3 +102,4 @@ export type ProjectActions =
 	| DeleteContactAction
 	| AddContactAction
 	| EditContactAction
+	| SetAuthAction

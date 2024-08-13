@@ -1,6 +1,7 @@
 import { FilterFormValues } from 'src/components/FilterForm/FilterForm'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
+import { AuthState } from '../reducers/authReducer'
 
 export const SET_CONTACTS = 'SET_CONTACTS'
 export const SET_FAVORITE_CONTACTS = 'SET_FAVORITE_CONTACTS'
@@ -10,6 +11,8 @@ export const TOGGLE_FAVORITE_CONTACT = 'TOGGLE_FAVORITE_CONTACT'
 export const DELETE_CONTACT = 'DELETE_CONTACT'
 export const ADD_CONTACT = 'ADD_CONTACT'
 export const EDIT_CONTACT = 'EDIT_CONTACT'
+export const SET_AUTH = 'SET_AUTH'
+
 export interface SetContactsAction {
 	type: typeof SET_CONTACTS
 	payload: ContactDto[]
@@ -45,4 +48,9 @@ export interface SetFilterValuesAction {
 export interface EditContactAction {
 	type: typeof EDIT_CONTACT
 	payload: ContactDto
+}
+
+export interface SetAuthAction {
+	type: typeof SET_AUTH
+	payload: AuthState
 }
