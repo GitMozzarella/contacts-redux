@@ -5,5 +5,6 @@ export enum PathList {
 	allGroups = '/groups',
 	group = '/groups/:groupId',
 	favorite = '/favorite',
-	notFound = '*'
+	notFound = '*',
+	auth = 'auth'
 }
