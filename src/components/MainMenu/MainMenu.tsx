@@ -3,22 +3,23 @@ import { PathList } from 'src/router/PathList'
 import styles from './menu.module.scss'
 import { IoHome } from 'react-icons/io5'
 import { NavMenu } from 'src/constants/variables'
+import { AuthStatus } from '../AuthStatus'
 
 export const MainMenu = () => {
 	return (
 		<header>
 			<nav className={styles.nav}>
-				<div>
-					<NavLink
-						className={({ isActive }) =>
-							isActive ? `${styles.logo} ${styles.active}` : styles.logo
-						}
-						to={PathList.home}
-					>
-						<IoHome />
-					</NavLink>
-				</div>
 				<ul className={styles.navList}>
+					<div>
+						<NavLink
+							className={({ isActive }) =>
+								isActive ? `${styles.logo} ${styles.active}` : styles.logo
+							}
+							to={PathList.home}
+						>
+							<IoHome />
+						</NavLink>
+					</div>
 					<li className={styles.navList_item}>
 						<NavLink
 							className={({ isActive }) =>
@@ -57,6 +58,9 @@ export const MainMenu = () => {
 					</li>
 				</ul>
 			</nav>
+			<div className={styles.authStatus}>
+				<AuthStatus />
+			</div>
 		</header>
 	)
 }
