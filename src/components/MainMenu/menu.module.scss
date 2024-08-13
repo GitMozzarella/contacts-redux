@@ -1,8 +1,16 @@
+header {
+	display: flex;
+	min-width: 90%;
+	padding: 0 50px;
+}
+
 .nav {
 	display: flex;
 	justify-content: center;
+	padding-left: 100px;
 	align-items: center;
-	width: 100%;
+	width: 90%;
+	border: 1px solid green;
 
 	.logo {
 		display: flex;
@@ -63,4 +71,9 @@
 			}
 		}
 	}
+}
+
+.authStatus {
+	align-items: center;
+	text-align: center;
 }
