@@ -17,7 +17,7 @@ export function authReducer(
 		case SET_AUTH:
 			return {
 				...state,
-				...action.payload
+				user: action.payload.user
 			}
 		default:
 			return state
