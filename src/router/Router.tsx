@@ -9,7 +9,6 @@ import { GroupPage } from 'src/pages/GroupPage'
 import { FavoriteListPage } from 'src/pages/FavoriteListPage'
 import { NotFoundPage } from 'src/pages/NotFoundPage'
 import { AuthenticationForm } from 'src/pages/AuthenticationForm'
-import { PrivateRoute } from 'src/components/PrivateRoute'
 
 export const Router = () => {
 	return (
@@ -17,54 +16,12 @@ export const Router = () => {
 			<Routes>
 				<Route path={PathList.auth} element={<AuthenticationForm />} />
 				<Route path={PathList.home} element={<MainLayout />}>
-					<Route
-						index
-						element={
-							<PrivateRoute>
-								<HomePage />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path={PathList.allContacts}
-						element={
-							<PrivateRoute>
-								<ContactListPage />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path={PathList.contact}
-						element={
-							<PrivateRoute>
-								<ContactPage />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path={PathList.allGroups}
-						element={
-							<PrivateRoute>
-								<GroupListPage />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path={PathList.group}
-						element={
-							<PrivateRoute>
-								<GroupPage />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path={PathList.favorite}
-						element={
-							<PrivateRoute>
-								<FavoriteListPage />
-							</PrivateRoute>
-						}
-					/>
+					<Route index element={<HomePage />} />
+					<Route path={PathList.allContacts} element={<ContactListPage />} />
+					<Route path={PathList.contact} element={<ContactPage />} />
+					<Route path={PathList.allGroups} element={<GroupListPage />} />
+					<Route path={PathList.group} element={<GroupPage />} />
+					<Route path={PathList.favorite} element={<FavoriteListPage />} />
 					<Route path={PathList.notFound} element={<NotFoundPage />} />
 				</Route>
 			</Routes>
