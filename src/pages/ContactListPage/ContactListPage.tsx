@@ -8,6 +8,7 @@ import {
 import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
 import styles from './contactListPage.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
+import { EmptyContactsList } from 'src/components/EmptyContactsList'
 
 export const ContactListPage = memo(() => {
 	const dispatch = useAppDispatch()
@@ -58,12 +59,15 @@ export const ContactListPage = memo(() => {
 			<div className={styles.filter_formContainer}>
 				<FilterForm initialValues={filter} onSubmit={onSubmit} />
 			</div>
-
-			<div className={styles.contact_cardsContainer}>
-				{filteredContacts.map(contact => (
-					<ContactCard key={contact.id} contact={contact} withLink />
-				))}
-			</div>
+			{filteredContacts.length === 0 ? (
+				<EmptyContactsList />
+			) : (
+				<div className={styles.contact_cardsContainer}>
+					{filteredContacts.map(contact => (
+						<ContactCard key={contact.id} contact={contact} withLink />
+					))}
+				</div>
+			)}
 		</div>
 	)
 })
