@@ -4,10 +4,9 @@ import {
 	useSelector,
 	useStore
 } from 'react-redux'
-import { Dispatch } from 'redux'
-import { ProjectActions } from './actions/actions'
-import { RootState } from './store'
 
-export const useAppDispatch = useDispatch<Dispatch<ProjectActions>>
+import { AppDispatch, RootState } from './store'
+
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppStore = useStore<RootState>
