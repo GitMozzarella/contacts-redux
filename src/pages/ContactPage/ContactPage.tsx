@@ -7,7 +7,7 @@ import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
 
 export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
-	const contacts = useAppSelector(state => state.contacts)
+	const contacts = useAppSelector(state => state.contacts.contacts)
 	const [contact, setContact] = useState<ContactDto | undefined>()
 
 	useEffect(() => {
@@ -35,7 +35,6 @@ export const ContactPage: FC = () => {
 								<ul className={styles.listGroup}>
 									<li className={styles.listGroupItem}>
 										<strong>
-											{' '}
 											<FcPhone /> {'   '}
 										</strong>
 										<Link
@@ -48,14 +47,14 @@ export const ContactPage: FC = () => {
 									</li>
 									<li className={styles.listGroupItem}>
 										<strong>
-											<FcCalendar /> {'   '}{' '}
-										</strong>{' '}
+											<FcCalendar /> {'   '}
+										</strong>
 										{contact.birthday}
 									</li>
 									<li className={styles.listGroupItem}>
 										<strong>
 											<FcHome /> {'   '}
-										</strong>{' '}
+										</strong>
 										{contact.address}
 									</li>
 								</ul>

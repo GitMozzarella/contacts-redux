@@ -13,15 +13,18 @@ const findContactsByIds = (
 }
 
 export const FavoriteListPage = memo(() => {
-	const favoriteContacts = useAppSelector(state => state.favoriteContacts)
-	const contacts = useAppSelector(state => state.contacts)
+	const favoriteContactIds = useAppSelector(
+		state => state.contacts.favoriteContacts
+	)
+	const contacts = useAppSelector(state => state.contacts.contacts)
+
 	const [filteredFavoriteContacts, setFilteredFavoriteContacts] = useState<
 		ContactDto[]
 	>([])
 
 	useEffect(() => {
-		setFilteredFavoriteContacts(findContactsByIds(favoriteContacts, contacts))
-	}, [favoriteContacts, contacts])
+		setFilteredFavoriteContacts(findContactsByIds(favoriteContactIds, contacts))
+	}, [favoriteContactIds, contacts])
 
 	return (
 		<div className={styles.favoriteList}>

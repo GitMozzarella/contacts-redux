@@ -10,7 +10,7 @@ interface GroupContactsCardProps {
 
 export const GroupContactsCard = memo<GroupContactsCardProps>(
 	({ groupContactsId, withLink }) => {
-		const groupContacts = useAppSelector(state => state.groupContacts)
+		const groupContacts = useAppSelector(state => state.contacts.groupContacts)
 
 		if (!groupContacts) {
 			return null

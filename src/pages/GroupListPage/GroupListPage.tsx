@@ -4,7 +4,7 @@ import styles from './groupListPage.module.scss'
 import { useAppSelector } from 'src/redux/hooks'
 
 export const GroupListPage = memo(() => {
-	const groupContacts = useAppSelector(state => state.groupContacts)
+	const groupContacts = useAppSelector(state => state.contacts.groupContacts)
 
 	return (
 		<div className={styles.groupList}>

@@ -8,8 +8,8 @@ import { useAppSelector } from 'src/redux/hooks'
 
 export const GroupPage = memo(() => {
 	const { groupId } = useParams<{ groupId: string }>()
-	const contacts = useAppSelector(state => state.contacts)
-	const groupContacts = useAppSelector(state => state.groupContacts)
+	const contacts = useAppSelector(state => state.contacts.contacts)
+	const groupContacts = useAppSelector(state => state.contacts.groupContacts)
 	const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
 	useEffect(() => {

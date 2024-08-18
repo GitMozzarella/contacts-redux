@@ -6,9 +6,9 @@ import { MdDeleteForever, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
 import { openConfirmModal } from '@mantine/modals'
 import {
-	deleteContactActionCreator,
-	toggleFavoriteContactActionCreator
-} from 'src/redux/actions/actions'
+	deleteContact,
+	toggleFavoriteContact
+} from 'src/redux/slices/contactsSlice'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactCard.module.scss'
 import { notifications } from '@mantine/notifications'
@@ -21,13 +21,15 @@ interface ContactCardProps {
 
 export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 	const dispatch = useAppDispatch()
-	const favoriteContacts = useAppSelector(state => state.favoriteContacts)
+	const favoriteContacts = useAppSelector(
+		state => state.contacts.favoriteContacts
+	)
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
 	const isFavorite = favoriteContacts.includes(contact.id)
 
 	const handleToggleFavorite = () => {
-		dispatch(toggleFavoriteContactActionCreator(contact.id))
+		dispatch(toggleFavoriteContact(contact.id))
 		notifications.show({
 			title: 'Уведомление',
 			message: isFavorite
@@ -50,7 +52,7 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 			labels: { confirm: 'Удалить', cancel: 'Отмена' },
 			confirmProps: { color: 'blue' },
 			onConfirm: () => {
-				dispatch(deleteContactActionCreator(contact.id))
+				dispatch(deleteContact(contact.id))
 				notifications.show({
 					title: 'Уведомление',
 					message: 'Контакт успешно удалён',

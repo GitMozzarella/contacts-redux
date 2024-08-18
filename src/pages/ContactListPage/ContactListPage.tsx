@@ -5,16 +5,16 @@ import {
 	FilterForm,
 	FilterFormValues
 } from 'src/components/FilterForm/FilterForm'
-import { setFilterValuesActionCreator } from 'src/redux/actions/actions'
+import { setFilterValues } from 'src/redux/slices/contactsSlice'
 import styles from './contactListPage.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { EmptyContactsList } from 'src/components/EmptyContactsList'
 
 export const ContactListPage = memo(() => {
 	const dispatch = useAppDispatch()
-	const contacts = useAppSelector(state => state.contacts)
-	const groupContacts = useAppSelector(state => state.groupContacts)
-	const filter = useAppSelector(state => state.filter)
+	const contacts = useAppSelector(state => state.contacts.contacts)
+	const groupContacts = useAppSelector(state => state.contacts.groupContacts)
+	const filter = useAppSelector(state => state.contacts.filter)
 
 	const [filteredContacts, setFilteredContacts] =
 		useState<ContactDto[]>(contacts)
@@ -46,7 +46,7 @@ export const ContactListPage = memo(() => {
 	)
 
 	const onSubmit = (fv: Partial<FilterFormValues>) => {
-		dispatch(setFilterValuesActionCreator(fv))
+		dispatch(setFilterValues(fv))
 		applyFilters(fv)
 	}
 

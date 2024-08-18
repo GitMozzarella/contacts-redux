@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react'
 import { Modal, Button, TextInput } from '@mantine/core'
 import { useAppDispatch } from 'src/redux/hooks'
-import {
-	addContactActionCreator,
-	editContactActionCreator
-} from 'src/redux/actions/actions'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { v4 as uuidv4 } from 'uuid'
 import { useForm } from 'react-hook-form'
@@ -15,6 +11,7 @@ import {
 	validateName,
 	validateAddress
 } from 'src/utils/validate'
+import { addContact, editContact } from 'src/redux/slices/contactsSlice'
 
 interface AddContactModalProps {
 	isOpen: boolean
@@ -59,9 +56,9 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		}
 
 		if (initialData) {
-			dispatch(editContactActionCreator(newContact))
+			dispatch(editContact(newContact))
 		} else {
-			dispatch(addContactActionCreator(newContact))
+			dispatch(addContact(newContact))
 		}
 
 		reset()
