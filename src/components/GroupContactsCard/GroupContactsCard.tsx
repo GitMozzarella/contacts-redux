@@ -12,7 +12,7 @@ export const GroupContactsCard = memo<GroupContactsCardProps>(
 	({ groupContactsId, withLink }) => {
 		const groupContacts = useAppSelector(state => state.contacts.groupContacts)
 
-		if (!groupContacts) {
+		if (groupContacts.length === 0) {
 			return null
 		}
 

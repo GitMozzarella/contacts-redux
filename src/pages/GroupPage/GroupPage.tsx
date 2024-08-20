@@ -35,7 +35,7 @@ export const GroupPage = memo(() => {
 			)}
 			<div className={styles.contactsContainer}>
 				{filteredContacts.map(contact => (
-					<div key={contact.id} className={styles.contactCard}>
+					<div key={contact.phone} className={styles.contactCard}>
 						<ContactCard contact={contact} withLink />
 					</div>
 				))}
