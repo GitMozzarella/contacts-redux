@@ -2,19 +2,27 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { FilterFormValues } from 'src/components/FilterForm/FilterForm'
+import {
+	fetchContactsFromFirestore,
+	fetchGroupContactsFromFirestore
+} from '../asyncActions/asyncActions'
 
 interface ContactsState {
 	contacts: ContactDto[]
 	favoriteContacts: string[]
 	groupContacts: GroupContactsDto[]
 	filter: Partial<FilterFormValues>
+	loading: boolean
+	error: string | null
 }
 
 const initialState: ContactsState = {
 	contacts: [],
 	favoriteContacts: [],
 	groupContacts: [],
-	filter: {}
+	filter: {},
+	loading: false,
+	error: null
 }
 
 const contactsSlice = createSlice({
@@ -59,6 +67,33 @@ const contactsSlice = createSlice({
 				state.contacts[index] = action.payload
 			}
 		}
+	},
+	extraReducers: builder => {
+		builder
+			.addCase(fetchContactsFromFirestore.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(fetchContactsFromFirestore.fulfilled, (state, action) => {
+				state.loading = false
+				state.contacts = action.payload
+			})
+			.addCase(fetchContactsFromFirestore.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.payload as string
+			})
+			.addCase(fetchGroupContactsFromFirestore.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(fetchGroupContactsFromFirestore.fulfilled, (state, action) => {
+				state.loading = false
+				state.groupContacts = action.payload
+			})
+			.addCase(fetchGroupContactsFromFirestore.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.payload as string
+			})
 	}
 })
 
