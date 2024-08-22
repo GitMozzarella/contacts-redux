@@ -1,12 +1,15 @@
-import { doc, setDoc, deleteDoc } from 'firebase/firestore'
+import { doc, setDoc, deleteDoc, collection } from 'firebase/firestore'
 import { db } from './firebaseConfig'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { CONTACTS } from 'src/constants/variables'
 
-export const addContactToFirestore = async (contact: ContactDto) => {
+export const addContactToFirestore = async (
+	contact: Omit<ContactDto, 'id'>
+) => {
 	try {
-		const contactRef = doc(db, CONTACTS, contact.id)
-		await setDoc(contactRef, contact)
+		const newContactRef = doc(collection(db, CONTACTS))
+		await setDoc(newContactRef, { ...contact, id: newContactRef.id })
+		console.log('Contact added to Firestore:', contact)
 	} catch (error) {
 		console.error('Error adding contact:', error)
 		throw error

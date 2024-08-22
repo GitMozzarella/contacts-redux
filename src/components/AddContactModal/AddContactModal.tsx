@@ -12,10 +12,11 @@ import {
 	validateAddress
 } from 'src/utils/validate'
 import {
-	addContactStore,
+	// addContactStore,
 	editContactStore
 } from 'src/redux/slices/contactsSlice'
 import styles from './index.module.scss'
+import { addContactFirestore } from 'src/redux/asyncActions/asyncActions'
 
 interface AddContactModalProps {
 	isOpen: boolean
@@ -62,7 +63,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		if (initialData) {
 			dispatch(editContactStore(newContact))
 		} else {
-			dispatch(addContactStore(newContact))
+			dispatch(addContactFirestore(newContact))
 		}
 
 		reset()
