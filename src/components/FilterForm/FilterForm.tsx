@@ -34,7 +34,6 @@ export const FilterForm = memo(
 		})
 
 		const [isModalOpen, setIsModalOpen] = useState(false)
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		const debouncedSubmit = useCallback(
 			debounce((updatedValues: FilterFormValues) => {
