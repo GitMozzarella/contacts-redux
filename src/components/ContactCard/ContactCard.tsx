@@ -6,13 +6,15 @@ import { MdDeleteForever, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
 import { openConfirmModal } from '@mantine/modals'
 import {
-	deleteContact,
+	addContactStore,
+	// deleteContactStore,
 	toggleFavoriteContact
 } from 'src/redux/slices/contactsSlice'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactCard.module.scss'
 import { notifications } from '@mantine/notifications'
 import { AddContactModal } from '../AddContactModal/AddContactModal'
+import { deleteContactFirestore } from 'src/redux/asyncActions/asyncActions'
 
 interface ContactCardProps {
 	contact: ContactDto
@@ -46,19 +48,43 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 	}
 
 	const handleDelete = () => {
+		if (!contact.docId) {
+			notifications.show({
+				title: 'Ошибка',
+				message: 'Не удалось найти идентификатор документа для удаления.',
+				color: 'red',
+				autoClose: 5000
+			})
+			return
+		}
+
 		openConfirmModal({
 			title: 'Подтверждение удаления',
 			children: <p>Вы уверены, что хотите удалить {contact.name}?</p>,
 			labels: { confirm: 'Удалить', cancel: 'Отмена' },
 			confirmProps: { color: 'blue' },
-			onConfirm: () => {
-				dispatch(deleteContact(contact.id))
-				notifications.show({
-					title: 'Уведомление',
-					message: 'Контакт успешно удалён',
-					limit: 5,
-					position: 'top-center'
-				})
+			onConfirm: async () => {
+				try {
+					await dispatch(deleteContactFirestore(contact.docId)).unwrap()
+
+					notifications.show({
+						title: 'Уведомление',
+						message: 'Контакт успешно удалён',
+						limit: 5,
+						position: 'top-center'
+					})
+				} catch (error) {
+					console.error('Error deleting contact:', error)
+
+					dispatch(addContactStore(contact))
+
+					notifications.show({
+						title: 'Ошибка',
+						message: 'Не удалось удалить контакт. Попробуйте еще раз.',
+						color: 'red',
+						autoClose: 5000
+					})
+				}
 			}
 		})
 	}
@@ -119,7 +145,7 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 				<AddContactModal
 					isOpen={isEditModalOpen}
 					onClose={() => setIsEditModalOpen(false)}
-					initialData={contact} // Передаем данные контакта для редактирования
+					initialData={contact}
 				/>
 			)}
 		</div>
