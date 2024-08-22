@@ -18,6 +18,8 @@ import {
 	addContactFirestore,
 	editContactFirestore
 } from 'src/redux/asyncActions/asyncActions'
+import { EMPTY_STRING, NAME_STRING } from 'src/constants/variables'
+import { messages } from 'src/constants/messages'
 
 interface AddContactModalProps {
 	isOpen: boolean
@@ -40,11 +42,11 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		formState: { errors }
 	} = useForm<ContactDto>({
 		defaultValues: {
-			name: '',
-			phone: '',
-			birthday: '',
-			address: '',
-			photo: ''
+			name: EMPTY_STRING,
+			phone: EMPTY_STRING,
+			birthday: EMPTY_STRING,
+			address: EMPTY_STRING,
+			photo: EMPTY_STRING
 		},
 		mode: 'onChange'
 	})
@@ -77,7 +79,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 	) => {
 		const value = event.target.value
 		const correctedValue =
-			fieldName === 'name'
+			fieldName === NAME_STRING
 				? value.charAt(0).toUpperCase() + value.slice(1)
 				: value
 
@@ -88,7 +90,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		<Modal
 			opened={isOpen}
 			onClose={onClose}
-			title={initialData ? 'Редактировать контакт' : 'Добавить контакт'}
+			title={initialData ? messages.editContact : messages.addContact}
 			classNames={{ title: styles.modalTitle }}
 		>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -135,7 +137,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 					className={styles.textInput}
 				/>
 				<Button type='submit' className={styles.button}>
-					{initialData ? 'Сохранить' : 'Добавить'}
+					{initialData ? messages.save : messages.add}
 				</Button>
 			</form>
 		</Modal>
