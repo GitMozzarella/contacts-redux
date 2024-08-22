@@ -10,6 +10,7 @@ import styles from './contactListPage.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { EmptyContactsList } from 'src/components/EmptyContactsList'
 import { fetchContactsFromFirestore } from 'src/redux/asyncActions/asyncActions'
+import { Loading } from 'src/components/Loading'
 
 export const ContactListPage = memo(() => {
 	const dispatch = useAppDispatch()
@@ -56,7 +57,12 @@ export const ContactListPage = memo(() => {
 		applyFilters(filter)
 	}, [filter, contacts, groupContacts])
 
-	if (loading) return <div>Loading...</div>
+	if (loading)
+		return (
+			<div className={styles.loader}>
+				<Loading />
+			</div>
+		)
 	if (error) return <div>Error: {error}</div>
 
 	const onSubmit = (fv: Partial<FilterFormValues>) => {

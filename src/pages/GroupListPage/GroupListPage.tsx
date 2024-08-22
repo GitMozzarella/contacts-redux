@@ -3,6 +3,8 @@ import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { fetchGroupContactsFromFirestore } from '../../redux/asyncActions/asyncActions'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import styles from './groupListPage.module.scss'
+import { Loading } from 'src/components/Loading/Loading'
+import { ERROR, NO_GROUPS } from 'src/constants/variables'
 
 export const GroupListPage = memo(() => {
 	const dispatch = useAppDispatch()
@@ -14,13 +16,24 @@ export const GroupListPage = memo(() => {
 		dispatch(fetchGroupContactsFromFirestore())
 	}, [dispatch])
 
-	if (loading) return <p>Loading...</p>
-	if (error) return <p>Error: {error}</p>
+	if (loading)
+		return (
+			<div className={styles.loader}>
+				<Loading />
+			</div>
+		)
+	if (error)
+		return (
+			<p>
+				{ERROR}
+				{error}
+			</p>
+		)
 
 	return (
 		<div className={styles.groupList}>
 			{groupContacts.length === 0 ? (
-				<p>No groups found.</p>
+				<p>{NO_GROUPS}</p>
 			) : (
 				groupContacts.map(group => (
 					<div key={group.id} className={styles.groupItem}>

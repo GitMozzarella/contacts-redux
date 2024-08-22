@@ -4,6 +4,7 @@ import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactPage.module.scss'
 import { useAppSelector } from 'src/redux/hooks'
 import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
+import { Loading } from 'src/components/Loading/Loading'
 
 export const ContactPage: FC = () => {
 	const { contactId } = useParams<{ contactId: string }>()
@@ -21,7 +22,7 @@ export const ContactPage: FC = () => {
 		<div className={styles.container}>
 			<div className={styles.content}>
 				<div>
-					{contact && (
+					{contact ? (
 						<div className={styles.cardContact}>
 							<div className={styles.photoContact}>
 								<img
@@ -60,6 +61,8 @@ export const ContactPage: FC = () => {
 								</ul>
 							</div>
 						</div>
+					) : (
+						<Loading />
 					)}
 				</div>
 			</div>
