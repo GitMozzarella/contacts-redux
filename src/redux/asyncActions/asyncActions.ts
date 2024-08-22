@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../../firebaseConfig'
+import { db } from '../../firebase/firebaseConfig'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { setGroupContacts } from '../slices/contactsSlice'
 import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
