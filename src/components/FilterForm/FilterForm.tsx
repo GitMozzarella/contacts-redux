@@ -1,0 +1,121 @@
+import React, { memo, useState, useEffect, useCallback } from 'react'
+import { debounce } from 'lodash'
+import { MdPersonSearch, MdClear } from 'react-icons/md'
+import { IoPersonAdd } from 'react-icons/io5'
+import { setFilterValues } from 'src/redux/slices/contactsSlice'
+import styles from './filterForm.module.scss'
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
+import { AddContactModal } from '../AddContactModal/AddContactModal'
+import { EMPTY_STRING } from 'src/constants/variables'
+
+export interface FilterFormValues {
+	name: string
+	groupId: string
+}
+
+interface FilterFormProps {
+	initialValues?: Partial<FilterFormValues>
+	onSubmit: (values: Partial<FilterFormValues>) => void
+}
+
+export const FilterForm = memo(
+	({
+		initialValues = { name: EMPTY_STRING, groupId: EMPTY_STRING },
+		onSubmit
+	}: FilterFormProps) => {
+		const dispatch = useAppDispatch()
+		const groupContactsList = useAppSelector(
+			state => state.contacts.groupContacts
+		)
+		const filterValues = useAppSelector(state => state.contacts.filter)
+
+		const [values, setValues] = useState<FilterFormValues>({
+			name: initialValues.name || filterValues.name || '',
+			groupId: initialValues.groupId || filterValues.groupId || ''
+		})
+
+		const [isModalOpen, setIsModalOpen] = useState(false)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		const debouncedSubmit = useCallback(
+			debounce((updatedValues: FilterFormValues) => {
+				onSubmit(updatedValues)
+				dispatch(setFilterValues(updatedValues))
+			}, 300),
+			[dispatch, onSubmit]
+		)
+
+		useEffect(() => {
+			debouncedSubmit(values)
+			return () => {
+				debouncedSubmit.cancel()
+			}
+		}, [values, debouncedSubmit])
+
+		const handleChange = useCallback(
+			(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+				const { name, value } = e.target
+				setValues(prevValues => ({
+					...prevValues,
+					[name]: value
+				}))
+			},
+			[]
+		)
+
+		const handleClear = useCallback(() => {
+			setValues({ name: EMPTY_STRING, groupId: EMPTY_STRING })
+			dispatch(setFilterValues({ name: EMPTY_STRING, groupId: EMPTY_STRING }))
+		}, [dispatch])
+
+		return (
+			<form className={styles.filterForm} onSubmit={e => e.preventDefault()}>
+				<div className={styles.formInput}>
+					<div className={styles.inputContainer}>
+						<input
+							type='text'
+							id='name'
+							name='name'
+							placeholder='Search contact...'
+							aria-label='Name'
+							value={values.name}
+							onChange={handleChange}
+						/>
+						<MdPersonSearch className={styles.icon} />
+						{values.name && (
+							<MdClear className={styles.clear} onClick={handleClear} />
+						)}
+					</div>
+				</div>
+				<div className={styles.formSelect}>
+					<select
+						id='groupId'
+						name='groupId'
+						aria-label='Search by group'
+						value={values.groupId}
+						onChange={handleChange}
+					>
+						<option value=''>Select a group</option>
+						{groupContactsList.map(groupContacts => (
+							<option value={groupContacts.id} key={groupContacts.id}>
+								{groupContacts.name}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className={styles.buttonsContainer}>
+					<button
+						className={styles.buttonAdd}
+						type='button'
+						onClick={() => setIsModalOpen(true)}
+					>
+						<IoPersonAdd />
+					</button>
+				</div>
+				<AddContactModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+				/>
+			</form>
+		)
+	}
+)

@@ -1,0 +1,130 @@
+[
+	{
+		"id": "ecd667da-0513-4dd5-ba50-e7cc69f6573c",
+		"address": "Apt. 964",
+		"birthday": "25.01.2000",
+		"name": "Kali Murray",
+		"phone": "+79652335741",
+		"photo": "/images/image1.jpg"
+	},
+	{
+		"id": "84465d40-ef7b-41c7-8de4-29e7fb4ddd21",
+		"address": "Apt. 116",
+		"birthday": "02.08.2008",
+		"name": "Sydnee Langosh",
+		"phone": "+79161234567",
+		"photo": "/images/image2.jpg"
+	},
+	{
+		"id": "0fc3c0ea-0e30-439b-bf2d-393e044788b2",
+		"address": "Suite 573",
+		"birthday": "28.10.1971",
+		"name": "Arlie Bruen",
+		"phone": "+77081234567",
+		"photo": "/images/image3.jpg"
+	},
+	{
+		"id": "08b8735f-c1b6-4029-a96b-3d3e91869727",
+		"address": "Suite 935",
+		"birthday": "14.10.1997",
+		"name": "Mellie Kessler",
+		"phone": "+77712345678",
+		"photo": "/images/image4.jpg"
+	},
+	{
+		"id": "9dd3369c-e35e-4cff-922c-a3dd16cc475a",
+		"address": "Apt. 177",
+		"birthday": "13.06.1994",
+		"name": "Spencer Jacobson",
+		"phone": "+79161234568",
+		"photo": "/images/image5.jpg"
+	},
+	{
+		"id": "f70f71ac-937a-44a4-b7cc-654ba4a1b915",
+		"address": "Suite 814",
+		"birthday": "11.09.1990",
+		"name": "Cara Kutch",
+		"phone": "+79652335742",
+		"photo": "/images/image6.jpg"
+	},
+	{
+		"id": "6d71425d-fd8c-4f6e-a676-f4191ec5e901",
+		"address": "Apt. 257",
+		"birthday": "06.09.1992",
+		"name": "Jorge Boehm",
+		"phone": "+77081234569",
+		"photo": "/images/image7.jpg"
+	},
+	{
+		"id": "9030a77e-7e6c-4052-9736-438b9252073e",
+		"address": "Suite 036",
+		"birthday": "10.10.1976",
+		"name": "Lorena DuBuque",
+		"phone": "+77712345679",
+		"photo": "/images/image8.jpg"
+	},
+	{
+		"id": "33fdfec9-4278-4b8c-8fbd-f30cbde96e7b",
+		"address": "Apt. 897",
+		"birthday": "13.04.1999",
+		"name": "Fritz Steuber",
+		"phone": "+79161234569",
+		"photo": "/images/image9.jpg"
+	},
+	{
+		"id": "2ac1562d-86bb-481d-a293-f052ce2e1f7d",
+		"address": "Apt. 061",
+		"birthday": "25.06.1983",
+		"name": "Sydnee Littel",
+		"phone": "+77081234570",
+		"photo": "/images/image10.jpg"
+	},
+	{
+		"id": "24145cba-fe1c-477e-83a0-a0c4063f5c92",
+		"address": "Apt. 414",
+		"birthday": "13.04.1982",
+		"name": "Patience Kautzer",
+		"phone": "+77712345680",
+		"photo": "/images/image11.jpg"
+	},
+	{
+		"id": "d97eb312-c502-48aa-b8d6-a427b8950ce1",
+		"address": "Suite 383",
+		"birthday": "13.10.2002",
+		"name": "Esmeralda Smitham",
+		"phone": "+79161234570",
+		"photo": "/images/image12.jpg"
+	},
+	{
+		"id": "2a545508-7e95-4b8e-a827-603dbae0c81f",
+		"address": "Suite 026",
+		"birthday": "19.05.1995",
+		"name": "Addison Rippin",
+		"phone": "+77081234571",
+		"photo": "/images/image13.jpg"
+	},
+	{
+		"id": "5dd152ab-d6ab-4a71-844c-17c2d7cc7543",
+		"address": "Suite 342",
+		"birthday": "09.11.1997",
+		"name": "Mervin Rolfson",
+		"phone": "+77712345681",
+		"photo": "/images/image14.jpg"
+	},
+	{
+		"id": "a3a09ca9-06f2-46a1-bce0-5a1aab7bf0c5",
+		"address": "Suite 693",
+		"birthday": "27.10.1989",
+		"name": "Nicholaus Stiedemann",
+		"phone": "+79161234571",
+		"photo": "/images/image15.jpg"
+	},
+	{
+		"id": "069081b4-12b8-4bbd-84d2-1715140459c3",
+		"address": "Suite 862",
+		"birthday": "21.01.1985",
+		"name": "Kaitlyn Moore",
+		"phone": "+77081234572",
+		"photo": "/images/image16.jpg"
+	}
+]
