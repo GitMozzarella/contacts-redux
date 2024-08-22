@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Modal, Button, TextInput } from '@mantine/core'
 import { useAppDispatch } from 'src/redux/hooks'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { v4 as uuidv4 } from 'uuid'
+
 import { useForm } from 'react-hook-form'
 import {
 	handlePhoneChange,
@@ -55,15 +55,14 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 	}, [initialData, reset])
 
 	const onSubmit = (values: Omit<ContactDto, 'id'>) => {
-		const newContact: ContactDto = {
-			id: initialData?.id || uuidv4(),
-			...values
-		}
-
 		if (initialData) {
-			dispatch(editContactStore(newContact))
+			const updatedContact: ContactDto = {
+				id: initialData.id,
+				...values
+			}
+			dispatch(editContactStore(updatedContact))
 		} else {
-			dispatch(addContactFirestore(newContact))
+			dispatch(addContactFirestore(values))
 		}
 
 		reset()

@@ -5,11 +5,13 @@ import { CONTACTS } from 'src/constants/variables'
 
 export const addContactToFirestore = async (
 	contact: Omit<ContactDto, 'id'>
-) => {
+): Promise<ContactDto> => {
 	try {
 		const newContactRef = doc(collection(db, CONTACTS))
-		await setDoc(newContactRef, { ...contact, id: newContactRef.id })
-		console.log('Contact added to Firestore:', contact)
+		const newContact: ContactDto = { ...contact, id: newContactRef.id }
+		await setDoc(newContactRef, newContact)
+		console.log('Contact added to Firestore:', newContact)
+		return newContact
 	} catch (error) {
 		console.error('Error adding contact:', error)
 		throw error

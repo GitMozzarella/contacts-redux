@@ -103,7 +103,13 @@ const contactsSlice = createSlice({
 			})
 			.addCase(addContactFirestore.fulfilled, (state, action) => {
 				state.loading = false
-				state.contacts.push(action.meta.arg)
+
+				const newContact: ContactDto = {
+					...action.meta.arg,
+					id: action.payload.id
+				}
+
+				state.contacts.push(newContact)
 			})
 			.addCase(addContactFirestore.rejected, (state, action) => {
 				state.loading = false

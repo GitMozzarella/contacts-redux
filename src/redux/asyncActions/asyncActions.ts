@@ -82,12 +82,12 @@ export const fetchGroupContactsFromFirestore = createAsyncThunk<
 })
 
 export const addContactFirestore = createAsyncThunk<
-	void,
 	ContactDto,
+	Omit<ContactDto, 'id'>,
 	{ rejectValue: string }
 >(ADD_CONTACT, async (contact, { rejectWithValue }) => {
 	try {
-		await addContactToFirestore(contact)
+		return await addContactToFirestore(contact)
 	} catch (error) {
 		console.error('Error adding contact:', error)
 		return rejectWithValue('Failed to add contact')
