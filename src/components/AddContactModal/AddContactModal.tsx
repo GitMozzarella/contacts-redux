@@ -11,7 +11,10 @@ import {
 	validateName,
 	validateAddress
 } from 'src/utils/validate'
-import { addContact, editContact } from 'src/redux/slices/contactsSlice'
+import {
+	addContactStore,
+	editContactStore
+} from 'src/redux/slices/contactsSlice'
 import styles from './index.module.scss'
 
 interface AddContactModalProps {
@@ -57,9 +60,9 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		}
 
 		if (initialData) {
-			dispatch(editContact(newContact))
+			dispatch(editContactStore(newContact))
 		} else {
-			dispatch(addContact(newContact))
+			dispatch(addContactStore(newContact))
 		}
 
 		reset()
