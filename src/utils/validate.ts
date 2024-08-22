@@ -57,10 +57,10 @@ export const validateDate = (value: string) => {
 
 // Валидация имени
 export const validateName = (value: string) => {
-	const isValid = /^[A-Z][a-z]*( [A-Z][a-z]*)?$/.test(value)
+	const isValid = /^[A-Za-z]+( [A-Za-z]+)*$/.test(value)
 	return (
 		isValid ||
-		'Name must start with a capital letter and can contain only one space'
+		'Name must only contain alphabetic characters and single spaces between words'
 	)
 }
 

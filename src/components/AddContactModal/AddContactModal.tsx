@@ -12,6 +12,7 @@ import {
 	validateAddress
 } from 'src/utils/validate'
 import { addContact, editContact } from 'src/redux/slices/contactsSlice'
+import styles from './index.module.scss'
 
 interface AddContactModalProps {
 	isOpen: boolean
@@ -69,23 +70,30 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		fieldName: keyof ContactDto,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		setValue(fieldName, event.target.value, { shouldValidate: true })
+		const value = event.target.value
+		const correctedValue =
+			fieldName === 'name'
+				? value.charAt(0).toUpperCase() + value.slice(1)
+				: value
+
+		setValue(fieldName, correctedValue, { shouldValidate: true })
 		trigger(fieldName, { shouldFocus: false })
 	}
-
 	return (
 		<Modal
 			opened={isOpen}
 			onClose={onClose}
 			title={initialData ? 'Редактировать контакт' : 'Добавить контакт'}
+			classNames={{ title: styles.modalTitle }}
 		>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<TextInput
 					label='Имя'
 					placeholder='John Wick'
 					{...register('name', { validate: validateName })}
 					onChange={e => handleChange('name', e)}
 					error={errors.name?.message}
+					className={styles.textInput}
 				/>
 				<TextInput
 					label='Телефон'
@@ -95,6 +103,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 						onChange: e => handlePhoneChange(e, setValue, trigger)
 					})}
 					error={errors.phone?.message}
+					className={styles.textInput}
 				/>
 				<TextInput
 					label='День рождения'
@@ -102,6 +111,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 					{...register('birthday', { validate: validateDate })}
 					onChange={e => handleChange('birthday', e)}
 					error={errors.birthday?.message}
+					className={styles.textInput}
 				/>
 				<TextInput
 					label='Адрес'
@@ -109,6 +119,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 					{...register('address', { validate: validateAddress })}
 					onChange={e => handleChange('address', e)}
 					error={errors.address?.message}
+					className={styles.textInput}
 				/>
 				<TextInput
 					label='Фото URL'
@@ -116,8 +127,11 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 					{...register('photo', { required: 'URL фото обязателен' })}
 					onChange={e => handleChange('photo', e)}
 					error={errors.photo?.message}
+					className={styles.textInput}
 				/>
-				<Button type='submit'>{initialData ? 'Сохранить' : 'Добавить'}</Button>
+				<Button type='submit' className={styles.button}>
+					{initialData ? 'Сохранить' : 'Добавить'}
+				</Button>
 			</form>
 		</Modal>
 	)
