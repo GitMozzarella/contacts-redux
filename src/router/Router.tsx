@@ -9,6 +9,7 @@ import { GroupPage } from 'src/pages/GroupPage'
 import { FavoriteListPage } from 'src/pages/FavoriteListPage'
 import { NotFoundPage } from 'src/pages/NotFoundPage'
 import { AuthenticationForm } from 'src/pages/AuthenticationForm'
+import { RouteWithErrorBoundary } from 'src/components/RouteWithErrorBoundary'
 
 export const Router = () => {
 	return (
@@ -17,12 +18,54 @@ export const Router = () => {
 				<Route path={PathList.auth} element={<AuthenticationForm />} />
 				<Route path={PathList.home} element={<MainLayout />}>
 					<Route index element={<HomePage />} />
-					<Route path={PathList.allContacts} element={<ContactListPage />} />
-					<Route path={PathList.contact} element={<ContactPage />} />
-					<Route path={PathList.allGroups} element={<GroupListPage />} />
-					<Route path={PathList.group} element={<GroupPage />} />
-					<Route path={PathList.favorite} element={<FavoriteListPage />} />
-					<Route path={PathList.notFound} element={<NotFoundPage />} />
+					<Route
+						path={PathList.allContacts}
+						element={
+							<RouteWithErrorBoundary>
+								<ContactListPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
+					<Route
+						path={PathList.contact}
+						element={
+							<RouteWithErrorBoundary>
+								<ContactPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
+					<Route
+						path={PathList.allGroups}
+						element={
+							<RouteWithErrorBoundary>
+								<GroupListPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
+					<Route
+						path={PathList.group}
+						element={
+							<RouteWithErrorBoundary>
+								<GroupPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
+					<Route
+						path={PathList.favorite}
+						element={
+							<RouteWithErrorBoundary>
+								<FavoriteListPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
+					<Route
+						path={PathList.notFound}
+						element={
+							<RouteWithErrorBoundary>
+								<NotFoundPage />
+							</RouteWithErrorBoundary>
+						}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>
