@@ -15,6 +15,9 @@ import styles from './contactCard.module.scss'
 import { notifications } from '@mantine/notifications'
 import { AddContactModal } from '../AddContactModal/AddContactModal'
 import { deleteContactFirestore } from 'src/redux/asyncActions/asyncActions'
+import { messages } from 'src/constants/messages'
+import { blue, green, red } from 'src/constants/variables'
+import { ErrorMessages } from 'src/constants/errorMessages'
 
 interface ContactCardProps {
 	contact: ContactDto
@@ -33,11 +36,11 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 	const handleToggleFavorite = () => {
 		dispatch(toggleFavoriteContact(contact.id))
 		notifications.show({
-			title: 'Уведомление',
+			title: messages.notification,
 			message: isFavorite
-				? `${contact.name} удален из избранных`
-				: `${contact.name} добавлен в избранные`,
-			color: isFavorite ? 'red' : 'green',
+				? `${contact.name} ${messages.deletedFromFav}`
+				: `${contact.name} ${messages.addToFav}`,
+			color: isFavorite ? red : green,
 			autoClose: 2500,
 			styles: {
 				root: {
@@ -50,9 +53,9 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 	const handleDelete = () => {
 		if (!contact.docId) {
 			notifications.show({
-				title: 'Ошибка',
-				message: 'Не удалось найти идентификатор документа для удаления.',
-				color: 'red',
+				title: messages.error,
+				message: messages.notFoundForDelete,
+				color: red,
 				autoClose: 5000
 			})
 			return
@@ -60,28 +63,32 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 
 		openConfirmModal({
 			title: 'Подтверждение удаления',
-			children: <p>Вы уверены, что хотите удалить {contact.name}?</p>,
-			labels: { confirm: 'Удалить', cancel: 'Отмена' },
-			confirmProps: { color: 'blue' },
+			children: (
+				<p>
+					{messages.confirmDelete} {contact.name}?
+				</p>
+			),
+			labels: { confirm: messages.delete, cancel: messages.reject },
+			confirmProps: { color: blue },
 			onConfirm: async () => {
 				try {
 					await dispatch(deleteContactFirestore(contact.docId)).unwrap()
 
 					notifications.show({
-						title: 'Уведомление',
-						message: 'Контакт успешно удалён',
+						title: messages.notification,
+						message: messages.confirmDelete,
 						limit: 5,
 						position: 'top-center'
 					})
 				} catch (error) {
-					console.error('Error deleting contact:', error)
+					console.error(ErrorMessages.ErrorDeletingContact, error)
 
 					dispatch(addContactStore(contact))
 
 					notifications.show({
-						title: 'Ошибка',
-						message: 'Не удалось удалить контакт. Попробуйте еще раз.',
-						color: 'red',
+						title: messages.error,
+						message: ErrorMessages.ErrorDelete,
+						color: red,
 						autoClose: 5000
 					})
 				}
