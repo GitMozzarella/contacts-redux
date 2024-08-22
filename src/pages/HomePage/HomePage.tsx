@@ -1,4 +1,3 @@
-import { useAppStore } from 'src/redux/hooks'
 import styles from './home.module.scss'
 import {
 	HOME_PAGE_TITLE,
@@ -8,14 +7,8 @@ import {
 } from '../../constants/homePageMarkup'
 
 export const HomePage = () => {
-	const store = useAppStore()
-
-	const onHomePageClick = () => {
-		console.log('Вы кликнули по домашней странице', store.getState())
-	}
-
 	return (
-		<div className={styles.container} onClick={onHomePageClick}>
+		<div className={styles.container}>
 			<h1>{HOME_PAGE_TITLE}</h1>
 			<p>{HOME_PAGE_DESCRIPTION}</p>
 			<ul>
