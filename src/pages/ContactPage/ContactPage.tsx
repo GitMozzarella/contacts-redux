@@ -36,7 +36,7 @@ export const ContactPage: FC = () => {
 								<ul className={styles.listGroup}>
 									<li className={styles.listGroupItem}>
 										<strong>
-											<FcPhone /> {'   '}
+											<FcPhone />
 										</strong>
 										<Link
 											className={styles.phone}
@@ -48,13 +48,13 @@ export const ContactPage: FC = () => {
 									</li>
 									<li className={styles.listGroupItem}>
 										<strong>
-											<FcCalendar /> {'   '}
+											<FcCalendar />
 										</strong>
 										{contact.birthday}
 									</li>
 									<li className={styles.listGroupItem}>
 										<strong>
-											<FcHome /> {'   '}
+											<FcHome />
 										</strong>
 										{contact.address}
 									</li>
