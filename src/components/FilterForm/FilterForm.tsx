@@ -6,6 +6,7 @@ import { setFilterValues } from 'src/redux/slices/contactsSlice'
 import styles from './filterForm.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { AddContactModal } from '../AddContactModal/AddContactModal'
+import { EMPTY_STRING } from 'src/constants/variables'
 
 export interface FilterFormValues {
 	name: string
@@ -19,7 +20,7 @@ interface FilterFormProps {
 
 export const FilterForm = memo(
 	({
-		initialValues = { name: '', groupId: '' },
+		initialValues = { name: EMPTY_STRING, groupId: EMPTY_STRING },
 		onSubmit
 	}: FilterFormProps) => {
 		const dispatch = useAppDispatch()
@@ -62,8 +63,8 @@ export const FilterForm = memo(
 		)
 
 		const handleClear = useCallback(() => {
-			setValues({ name: '', groupId: '' })
-			dispatch(setFilterValues({ name: '', groupId: '' }))
+			setValues({ name: EMPTY_STRING, groupId: EMPTY_STRING })
+			dispatch(setFilterValues({ name: EMPTY_STRING, groupId: EMPTY_STRING }))
 		}, [dispatch])
 
 		return (
