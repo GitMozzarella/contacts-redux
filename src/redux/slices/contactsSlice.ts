@@ -4,7 +4,10 @@ import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { FilterFormValues } from 'src/components/FilterForm/FilterForm'
 import {
 	fetchContactsFromFirestore,
-	fetchGroupContactsFromFirestore
+	fetchGroupContactsFromFirestore,
+	addContactFirestore,
+	editContactFirestore,
+	deleteContactFirestore
 } from '../asyncActions/asyncActions'
 
 interface ContactsState {
@@ -51,15 +54,15 @@ const contactsSlice = createSlice({
 				state.favoriteContacts.push(contactId)
 			}
 		},
-		deleteContact(state, action: PayloadAction<string>) {
+		deleteContactStore(state, action: PayloadAction<string>) {
 			state.contacts = state.contacts.filter(
 				contact => contact.id !== action.payload
 			)
 		},
-		addContact(state, action: PayloadAction<ContactDto>) {
+		addContactStore(state, action: PayloadAction<ContactDto>) {
 			state.contacts.push(action.payload)
 		},
-		editContact(state, action: PayloadAction<ContactDto>) {
+		editContactStore(state, action: PayloadAction<ContactDto>) {
 			const index = state.contacts.findIndex(
 				contact => contact.id === action.payload.id
 			)
@@ -94,6 +97,51 @@ const contactsSlice = createSlice({
 				state.loading = false
 				state.error = action.payload as string
 			})
+			.addCase(addContactFirestore.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(addContactFirestore.fulfilled, (state, action) => {
+				state.loading = false
+				state.contacts.push(action.meta.arg)
+			})
+			.addCase(addContactFirestore.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.payload as string
+			})
+			.addCase(editContactFirestore.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(editContactFirestore.fulfilled, (state, action) => {
+				state.loading = false
+				const updatedContact = action.meta.arg
+				const index = state.contacts.findIndex(
+					contact => contact.id === updatedContact.id
+				)
+				if (index !== -1) {
+					state.contacts[index] = updatedContact
+				}
+			})
+			.addCase(editContactFirestore.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.payload as string
+			})
+			.addCase(deleteContactFirestore.pending, state => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(deleteContactFirestore.fulfilled, (state, action) => {
+				state.loading = false
+				const contactId = action.meta.arg
+				state.contacts = state.contacts.filter(
+					contact => contact.id !== contactId
+				)
+			})
+			.addCase(deleteContactFirestore.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.payload as string
+			})
 	}
 })
 
@@ -103,9 +151,9 @@ export const {
 	setGroupContacts,
 	setFilterValues,
 	toggleFavoriteContact,
-	deleteContact,
-	addContact,
-	editContact
+	deleteContactStore,
+	addContactStore,
+	editContactStore
 } = contactsSlice.actions
 
 export const contactsReducer = contactsSlice.reducer
