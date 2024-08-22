@@ -20,13 +20,15 @@ export const addContactToFirestore = async (
 
 export const editContactInFirestore = async (contact: ContactDto) => {
 	try {
-		const contactRef = doc(db, CONTACTS, contact.id)
+		const contactRef = doc(db, CONTACTS, contact.docId)
 		await setDoc(contactRef, contact, { merge: true })
+		console.log('Contact updated in Firestore:', contact)
 	} catch (error) {
 		console.error('Error editing contact:', error)
 		throw error
 	}
 }
+
 export const deleteContactFromFirestore = async (docId: string) => {
 	try {
 		const contactRef = doc(db, CONTACTS, docId)
