@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
 import { IoPersonAdd } from 'react-icons/io5'
@@ -35,38 +35,37 @@ export const FilterForm = memo(
 
 		const [isModalOpen, setIsModalOpen] = useState(false)
 
-		const debouncedSubmitRef = useRef(
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		const debouncedSubmit = useCallback(
 			debounce((updatedValues: FilterFormValues) => {
 				onSubmit(updatedValues)
 				dispatch(setFilterValues(updatedValues))
-			}, 300)
+			}, 300),
+			[dispatch, onSubmit]
 		)
 
 		useEffect(() => {
-			debouncedSubmitRef.current(values)
-		}, [values])
-
-		useEffect(() => {
-			const debouncedSubmit = debouncedSubmitRef.current
+			debouncedSubmit(values)
 			return () => {
 				debouncedSubmit.cancel()
 			}
-		}, [])
+		}, [values, debouncedSubmit])
 
-		const handleChange = (
-			e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-		) => {
-			const { name, value } = e.target
-			setValues(prevValues => ({
-				...prevValues,
-				[name]: value
-			}))
-		}
+		const handleChange = useCallback(
+			(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+				const { name, value } = e.target
+				setValues(prevValues => ({
+					...prevValues,
+					[name]: value
+				}))
+			},
+			[]
+		)
 
-		const handleClear = () => {
+		const handleClear = useCallback(() => {
 			setValues({ name: '', groupId: '' })
 			dispatch(setFilterValues({ name: '', groupId: '' }))
-		}
+		}, [dispatch])
 
 		return (
 			<form className={styles.filterForm} onSubmit={e => e.preventDefault()}>
