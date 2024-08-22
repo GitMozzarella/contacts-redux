@@ -5,10 +5,10 @@ import {
 	EDIT_CONTACT
 } from '../actions/actionTypes'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { DATA_CONTACT } from 'src/data'
+
 import { ProjectActions } from '../actions/actions'
 
-const initialContactsState: ContactDto[] = DATA_CONTACT
+const initialContactsState: ContactDto[] = []
 
 export const contactsReducer = (
 	state = initialContactsState,
