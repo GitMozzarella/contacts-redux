@@ -23,3 +23,10 @@ export const NO_GROUPS = 'No groups found.'
 export const ADD_CONTACT = 'contacts/addContact'
 export const EDIT_CONTACT = 'contacts/editContact'
 export const DELETE_CONTACT = 'contacts/deleteContact'
+
+export const EMPTY_STRING = ''
+export const NAME_STRING = 'name'
+
+export const red = 'red'
+export const green = 'green'
+export const blue = 'blue'
