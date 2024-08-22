@@ -9,7 +9,10 @@ import { setFilterValues } from 'src/redux/slices/contactsSlice'
 import styles from './contactListPage.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { EmptyContactsList } from 'src/components/EmptyContactsList'
-import { fetchContactsFromFirestore } from 'src/redux/asyncActions/asyncActions'
+import {
+	fetchContactsFromFirestore,
+	fetchGroupContactsFromFirestore
+} from 'src/redux/asyncActions/asyncActions'
 import { Loading } from 'src/components/Loading'
 
 export const ContactListPage = memo(() => {
@@ -24,6 +27,7 @@ export const ContactListPage = memo(() => {
 
 	useEffect(() => {
 		dispatch(fetchContactsFromFirestore())
+		dispatch(fetchGroupContactsFromFirestore())
 	}, [dispatch])
 
 	useEffect(() => {
