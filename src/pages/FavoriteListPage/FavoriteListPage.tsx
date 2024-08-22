@@ -4,6 +4,7 @@ import styles from './favoriteListPage.module.scss'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { useAppSelector } from 'src/redux/hooks'
 import { EmptyListFavorites } from 'src/constants/variables'
+import { Loading } from 'src/components/Loading'
 
 const findContactsByIds = (
 	ids: string[],
@@ -21,14 +22,22 @@ export const FavoriteListPage = memo(() => {
 	const [filteredFavoriteContacts, setFilteredFavoriteContacts] = useState<
 		ContactDto[]
 	>([])
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		setFilteredFavoriteContacts(findContactsByIds(favoriteContactIds, contacts))
+		setLoading(true)
+		const filteredContacts = findContactsByIds(favoriteContactIds, contacts)
+		setFilteredFavoriteContacts(filteredContacts)
+		setLoading(false)
 	}, [favoriteContactIds, contacts])
 
 	return (
 		<div className={styles.favoriteList}>
-			{filteredFavoriteContacts.length === 0 ? (
+			{loading ? (
+				<div className={styles.loadingContainer}>
+					<Loading />
+				</div>
+			) : filteredFavoriteContacts.length === 0 ? (
 				<div className={styles.emptyListFavorites}>{EmptyListFavorites}</div>
 			) : (
 				<div className={styles.contactCardsContainer}>
