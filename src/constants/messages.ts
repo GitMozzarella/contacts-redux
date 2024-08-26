@@ -18,5 +18,6 @@ export const messages = {
 	deletedFromFav: 'удален из избранных',
 	addToFav: 'добавлен в избранные',
 	error: 'Ошибка',
-	notFoundForDelete: 'Не удалось найти идентификатор документа для удаления.'
+	notFoundForDelete: 'Не удалось найти идентификатор документа для удаления.',
+	deleteProcess: 'Удаление'
 }

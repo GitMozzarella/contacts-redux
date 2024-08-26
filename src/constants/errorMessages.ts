@@ -7,3 +7,13 @@ export enum ErrorMessages {
 	ErrorDeletingContact = 'Error deleting contact:',
 	ErrorDelete = 'Не удалось удалить контакт. Попробуйте еще раз.'
 }
+
+export enum ErrorFetchGroups {
+	FailedLoadGroups = 'Не удалось загрузить группы',
+	NoGroupsAvailable = 'Нет доступных групп',
+	GroupNotFound = 'Группа не найдена'
+}
+
+export enum ErrorFetchContacts {
+	NoContactsAvailable = 'Нет доступных контактов'
+}

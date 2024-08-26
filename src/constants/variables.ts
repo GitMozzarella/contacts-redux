@@ -27,6 +27,18 @@ export const DELETE_CONTACT = 'contacts/deleteContact'
 export const EMPTY_STRING = ''
 export const NAME_STRING = 'name'
 
+export const light_red = '#fdb2b2'
+export const light_green = '#a1fca1'
 export const red = 'red'
 export const green = 'green'
 export const blue = 'blue'
+
+export const initialFormState = {
+	name: EMPTY_STRING,
+	phone: EMPTY_STRING,
+	birthday: EMPTY_STRING,
+	address: EMPTY_STRING,
+	photo: EMPTY_STRING
+}
+
+export const initialFilterValues = { name: EMPTY_STRING, groupId: EMPTY_STRING }
