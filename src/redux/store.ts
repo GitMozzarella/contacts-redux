@@ -1,11 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { contactsReducer } from './slices/contactsSlice'
+import { contactsApiSlice } from './rtkQuery/contacts/slice'
+import { logActionMiddleware } from './logActionMiddleware'
+import { groupsApiSlice } from './rtkQuery/groups/slice'
 
-export const store = configureStore({
-	reducer: {
-		contacts: contactsReducer
-	}
+const RootReducer = combineReducers({
+	contacts: contactsReducer,
+	[contactsApiSlice.reducerPath]: contactsApiSlice.reducer,
+	[groupsApiSlice.reducerPath]: groupsApiSlice.reducer
 })
 
-export type RootState = ReturnType<typeof store.getState>
+export const store = configureStore({
+	reducer: RootReducer,
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware().concat(
+			contactsApiSlice.middleware,
+			groupsApiSlice.middleware,
+			logActionMiddleware
+		)
+})
+
+export type RootState = ReturnType<typeof RootReducer>
 export type AppDispatch = typeof store.dispatch
