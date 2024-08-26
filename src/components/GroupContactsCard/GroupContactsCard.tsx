@@ -1,7 +1,10 @@
 import { memo } from 'react'
-import { Link } from 'react-router-dom'
+import { useGetGroupsQuery } from 'src/redux/rtkQuery/groups'
+import { ErrorFetchGroups } from 'src/constants/errorMessages'
+import { Loading } from '../Loading/Loading'
+
 import styles from './groupContactsCard.module.scss'
-import { useAppSelector } from 'src/redux/hooks'
+import { GroupContactsCardContent } from './GroupContactsCardContent'
 
 interface GroupContactsCardProps {
 	groupContactsId: string
@@ -10,43 +13,43 @@ interface GroupContactsCardProps {
 
 export const GroupContactsCard = memo<GroupContactsCardProps>(
 	({ groupContactsId, withLink }) => {
-		const groupContacts = useAppSelector(state => state.contacts.groupContacts)
+		const { data: groupContacts, isLoading, isError } = useGetGroupsQuery()
 
-		if (groupContacts.length === 0) {
-			return null
-		}
+		if (isLoading)
+			return (
+				<div className={styles.loader}>
+					<Loading />
+				</div>
+			)
+
+		if (isError)
+			return (
+				<div className={styles.error}>{ErrorFetchGroups.FailedLoadGroups}</div>
+			)
+
+		if (!groupContacts || groupContacts.length === 0)
+			return (
+				<div className={styles.noGroups}>
+					{ErrorFetchGroups.NoGroupsAvailable}
+				</div>
+			)
 
 		const selectedGroup = groupContacts.find(
 			group => group.id === groupContactsId
 		)
 
-		if (!selectedGroup) {
-			return null
-		}
-
-		const { id, name, description, photo, contactIds } = selectedGroup
+		if (!selectedGroup)
+			return (
+				<div className={styles.groupNotFound}>
+					{ErrorFetchGroups.GroupNotFound}
+				</div>
+			)
 
 		return (
-			<div className={styles.card}>
-				<div className={styles.header}>
-					{withLink ? (
-						<Link to={`/groups/${id}`} className={styles.link}>
-							{name}
-						</Link>
-					) : (
-						<span>{name}</span>
-					)}
-				</div>
-				<div className={styles.info}>
-					<img className={styles.img} src={photo} alt={name} />
-					<div className={styles.rightSection}>
-						<div className={styles.body}>{description}</div>
-						<div className={styles.footer}>
-							Contacts in group: {contactIds.length}
-						</div>
-					</div>
-				</div>
-			</div>
+			<GroupContactsCardContent
+				selectedGroup={selectedGroup}
+				withLink={withLink}
+			/>
 		)
 	}
 )

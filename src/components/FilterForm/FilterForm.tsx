@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { debounce } from 'lodash'
 import { MdPersonSearch, MdClear } from 'react-icons/md'
 import { IoPersonAdd } from 'react-icons/io5'
@@ -6,7 +6,10 @@ import { setFilterValues } from 'src/redux/slices/contactsSlice'
 import styles from './filterForm.module.scss'
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks'
 import { AddContactModal } from '../AddContactModal/AddContactModal'
-import { EMPTY_STRING } from 'src/constants/variables'
+import { EMPTY_STRING, initialFilterValues } from 'src/constants/variables'
+
+import { Loading } from '../Loading/Loading'
+import { useGetGroupsQuery } from 'src/redux/rtkQuery/groups'
 
 export interface FilterFormValues {
 	name: string
@@ -19,53 +22,53 @@ interface FilterFormProps {
 }
 
 export const FilterForm = memo(
-	({
-		initialValues = { name: EMPTY_STRING, groupId: EMPTY_STRING },
-		onSubmit
-	}: FilterFormProps) => {
+	({ initialValues = initialFilterValues, onSubmit }: FilterFormProps) => {
 		const dispatch = useAppDispatch()
-		const groupContactsList = useAppSelector(
-			state => state.contacts.groupContacts
-		)
+		const { data: groupContactsList = [], isLoading } = useGetGroupsQuery()
 		const filterValues = useAppSelector(state => state.contacts.filter)
 
 		const [values, setValues] = useState<FilterFormValues>({
-			name: initialValues.name || filterValues.name || '',
-			groupId: initialValues.groupId || filterValues.groupId || ''
+			name: initialValues.name || filterValues.name || EMPTY_STRING,
+			groupId: initialValues.groupId || filterValues.groupId || EMPTY_STRING
 		})
 
 		const [isModalOpen, setIsModalOpen] = useState(false)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		const debouncedSubmit = useCallback(
-			debounce((updatedValues: FilterFormValues) => {
-				onSubmit(updatedValues)
-				dispatch(setFilterValues(updatedValues))
-			}, 300),
-			[dispatch, onSubmit]
-		)
 
 		useEffect(() => {
+			const debouncedSubmit = debounce((updatedValues: FilterFormValues) => {
+				onSubmit(updatedValues)
+				dispatch(setFilterValues(updatedValues))
+			}, 300)
+
 			debouncedSubmit(values)
+
 			return () => {
 				debouncedSubmit.cancel()
 			}
-		}, [values, debouncedSubmit])
+		}, [values, dispatch, onSubmit])
 
-		const handleChange = useCallback(
-			(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-				const { name, value } = e.target
-				setValues(prevValues => ({
-					...prevValues,
-					[name]: value
-				}))
-			},
-			[]
-		)
+		const handleChange = (
+			e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+		) => {
+			const { name, value } = e.target
+			setValues(prevValues => ({
+				...prevValues,
+				[name]: value
+			}))
+		}
 
-		const handleClear = useCallback(() => {
-			setValues({ name: EMPTY_STRING, groupId: EMPTY_STRING })
-			dispatch(setFilterValues({ name: EMPTY_STRING, groupId: EMPTY_STRING }))
-		}, [dispatch])
+		const handleClear = () => {
+			setValues(initialFilterValues)
+			dispatch(setFilterValues(initialFilterValues))
+		}
+
+		if (isLoading) {
+			return (
+				<div className={styles.loader}>
+					<Loading />
+				</div>
+			)
+		}
 
 		return (
 			<form className={styles.filterForm} onSubmit={e => e.preventDefault()}>

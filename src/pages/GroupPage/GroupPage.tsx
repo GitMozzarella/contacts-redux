@@ -1,45 +1,54 @@
-import { memo, useEffect, useState } from 'react'
+import { memo } from 'react'
 import { useParams } from 'react-router-dom'
-import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { ContactCard } from 'src/components/ContactCard'
 import styles from './groupPage.module.scss'
-import { useAppSelector } from 'src/redux/hooks'
+import { useGetGroupsQuery } from 'src/redux/rtkQuery/groups'
+import { useGetContactsQuery } from 'src/redux/rtkQuery/contacts'
+import { ErrorFetchContacts } from 'src/constants/errorMessages'
+import { Loading } from 'src/components/Loading'
 
 export const GroupPage = memo(() => {
 	const { groupId } = useParams<{ groupId: string }>()
-	const contacts = useAppSelector(state => state.contacts.contacts)
-	const groupContacts = useAppSelector(state => state.contacts.groupContacts)
-	const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
-	useEffect(() => {
-		if (groupContacts.length > 0 && contacts.length > 0) {
-			const foundGroup = groupContacts.find(group => group.id === groupId)
-			if (foundGroup) {
-				const filtered = contacts.filter(contact =>
-					foundGroup.contactIds.includes(contact.id)
-				)
-				setFilteredContacts(filtered)
-			}
-		}
-	}, [contacts, groupContacts, groupId])
+	const { data: groupContacts = [], isLoading: isGroupsLoading } =
+		useGetGroupsQuery()
+	const { data: contacts = [], isLoading: isContactsLoading } =
+		useGetContactsQuery()
+
+	const isLoading = isGroupsLoading || isContactsLoading
 
 	const selectedGroup = groupContacts.find(group => group.id === groupId)
+	const filteredContacts = selectedGroup
+		? contacts.filter(contact => selectedGroup.contactIds.includes(contact.id))
+		: []
 
 	return (
 		<div className={styles.groupPage}>
-			{selectedGroup && (
-				<div className={styles.groupContactsContainer}>
-					<GroupContactsCard groupContactsId={selectedGroup.id} withLink />
+			{isLoading ? (
+				<div>
+					<Loading />
 				</div>
-			)}
-			<div className={styles.contactsContainer}>
-				{filteredContacts.map(contact => (
-					<div key={contact.phone} className={styles.contactCard}>
-						<ContactCard contact={contact} withLink />
+			) : (
+				<>
+					{selectedGroup && (
+						<div className={styles.groupContactsContainer}>
+							<GroupContactsCard groupContactsId={selectedGroup.id} withLink />
+						</div>
+					)}
+					<div className={styles.contactsContainer}>
+						{filteredContacts.length === 0 ? (
+							<p>{ErrorFetchContacts.NoContactsAvailable}</p>
+						) : (
+							filteredContacts.map(contact => (
+								<div key={contact.id} className={styles.contactCard}>
+									<ContactCard contact={contact} withLink />
+								</div>
+							))
+						)}
 					</div>
-				))}
-			</div>
+				</>
+			)}
 		</div>
 	)
 })

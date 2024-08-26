@@ -5,19 +5,24 @@ import { FaUserEdit } from 'react-icons/fa'
 import { MdDeleteForever, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FcHome, FcPhone, FcCalendar } from 'react-icons/fc'
 import { openConfirmModal } from '@mantine/modals'
-import {
-	addContactStore,
-	// deleteContactStore,
-	toggleFavoriteContact
-} from 'src/redux/slices/contactsSlice'
+import { toggleFavoriteContact } from 'src/redux/slices/contactsSlice'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import styles from './contactCard.module.scss'
 import { notifications } from '@mantine/notifications'
 import { AddContactModal } from '../AddContactModal/AddContactModal'
-import { deleteContactFirestore } from 'src/redux/asyncActions/asyncActions'
 import { messages } from 'src/constants/messages'
-import { blue, green, red } from 'src/constants/variables'
+import {
+	blue,
+	green,
+	light_green,
+	light_red,
+	red
+} from 'src/constants/variables'
 import { ErrorMessages } from 'src/constants/errorMessages'
+import {
+	useCreateContactMutation,
+	useDeleteContactMutation
+} from 'src/redux/rtkQuery/contacts'
 
 interface ContactCardProps {
 	contact: ContactDto
@@ -32,6 +37,9 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
 	const isFavorite = favoriteContacts.includes(contact.id)
+	const [deleteContact] = useDeleteContactMutation()
+
+	const [createContact] = useCreateContactMutation()
 
 	const handleToggleFavorite = () => {
 		dispatch(toggleFavoriteContact(contact.id))
@@ -44,14 +52,14 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 			autoClose: 2500,
 			styles: {
 				root: {
-					backgroundColor: isFavorite ? '#fdb2b2' : '#a1fca1'
+					backgroundColor: isFavorite ? light_red : light_green
 				}
 			}
 		})
 	}
 
 	const handleDelete = () => {
-		if (!contact.docId) {
+		if (!contact.id) {
 			notifications.show({
 				title: messages.error,
 				message: messages.notFoundForDelete,
@@ -62,17 +70,17 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 		}
 
 		openConfirmModal({
-			title: 'Подтверждение удаления',
+			title: messages.deleteProcess,
 			children: (
 				<p>
-					{messages.confirmDelete} {contact.name}?
+					{messages.confirmMessage} {contact.name}?
 				</p>
 			),
 			labels: { confirm: messages.delete, cancel: messages.reject },
 			confirmProps: { color: blue },
 			onConfirm: async () => {
 				try {
-					await dispatch(deleteContactFirestore(contact.docId)).unwrap()
+					await deleteContact(contact.id).unwrap()
 
 					notifications.show({
 						title: messages.notification,
@@ -83,7 +91,7 @@ export const ContactCard = memo<ContactCardProps>(({ contact, withLink }) => {
 				} catch (error) {
 					console.error(ErrorMessages.ErrorDeletingContact, error)
 
-					dispatch(addContactStore(contact))
+					await createContact(contact)
 
 					notifications.show({
 						title: messages.error,

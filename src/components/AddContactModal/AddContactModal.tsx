@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { Modal, Button, TextInput } from '@mantine/core'
-import { useAppDispatch } from 'src/redux/hooks'
+import { useForm } from 'react-hook-form'
 import { ContactDto } from 'src/types/dto/ContactDto'
 
-import { useForm } from 'react-hook-form'
+import { Loading } from 'src/components/Loading'
+import { v4 as uuidv4 } from 'uuid'
+import styles from './index.module.scss'
 import {
 	handlePhoneChange,
 	validatePhone,
@@ -11,15 +13,12 @@ import {
 	validateName,
 	validateAddress
 } from 'src/utils/validate'
-// import {addContactStore,
-// editContactStore} from 'src/redux/slices/contactsSlice'
-import styles from './index.module.scss'
-import {
-	addContactFirestore,
-	editContactFirestore
-} from 'src/redux/asyncActions/asyncActions'
-import { EMPTY_STRING, NAME_STRING } from 'src/constants/variables'
+import { initialFormState, NAME_STRING } from 'src/constants/variables'
 import { messages } from 'src/constants/messages'
+import {
+	useCreateContactMutation,
+	useEditContactMutation
+} from 'src/redux/rtkQuery/contacts'
 
 interface AddContactModalProps {
 	isOpen: boolean
@@ -32,7 +31,6 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 	onClose,
 	initialData
 }) => {
-	const dispatch = useAppDispatch()
 	const {
 		register,
 		handleSubmit,
@@ -41,39 +39,35 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		reset,
 		formState: { errors }
 	} = useForm<ContactDto>({
-		defaultValues: {
-			name: EMPTY_STRING,
-			phone: EMPTY_STRING,
-			birthday: EMPTY_STRING,
-			address: EMPTY_STRING,
-			photo: EMPTY_STRING
-		},
+		defaultValues: initialFormState,
 		mode: 'onChange'
 	})
+
+	const [createContact, { isLoading: isCreating }] = useCreateContactMutation()
+	const [editContact, { isLoading: isEditing }] = useEditContactMutation()
 
 	useEffect(() => {
 		if (initialData) {
 			reset(initialData)
-		}
-	}, [initialData, reset])
-
-	const onSubmit = (values: Omit<ContactDto, 'id'>) => {
-		if (initialData) {
-			const updatedContact: ContactDto = {
-				id: initialData.id,
-
-				...values
-			}
-			dispatch(editContactFirestore(updatedContact))
 		} else {
-			dispatch(addContactFirestore(values))
+			reset(initialFormState)
 		}
+	}, [initialData, reset, isOpen])
 
-		reset()
-		onClose()
+	const onSubmit = async (values: Omit<ContactDto, 'id'>) => {
+		try {
+			if (initialData) {
+				await editContact({ id: initialData.id, ...values })
+			} else {
+				await createContact({ id: uuidv4(), ...values })
+			}
+			onClose()
+		} catch (err) {
+			console.error('Operation failed:', err)
+		}
 	}
 
-	const handleChange = async (
+	const handleChange = (
 		fieldName: keyof ContactDto,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -86,6 +80,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 		setValue(fieldName, correctedValue, { shouldValidate: true })
 		trigger(fieldName, { shouldFocus: false })
 	}
+
 	return (
 		<Modal
 			opened={isOpen}
@@ -93,6 +88,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 			title={initialData ? messages.editContact : messages.addContact}
 			classNames={{ title: styles.modalTitle }}
 		>
+			{(isCreating || isEditing) && <Loading />}
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<TextInput
 					label='Имя'
@@ -104,7 +100,7 @@ export const AddContactModal: React.FC<AddContactModalProps> = ({
 				/>
 				<TextInput
 					label='Телефон'
-					placeholder='+1234567890123'
+					placeholder='+8982474523553'
 					{...register('phone', {
 						validate: validatePhone,
 						onChange: e => handlePhoneChange(e, setValue, trigger)
