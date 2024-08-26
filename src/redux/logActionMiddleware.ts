@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { logAction } from 'src/components/metric/logAction'
+import { logAction } from '../metrics/logAction'
 import { RootState } from './store'
 
 export const logActionMiddleware: Middleware<{}, RootState> =
