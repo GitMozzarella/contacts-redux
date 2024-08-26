@@ -1,5 +1,4 @@
 export interface ContactDto {
-	docId: string
 	id: string
 	/** телефон */
 	phone: string
