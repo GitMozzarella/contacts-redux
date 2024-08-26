@@ -8,14 +8,13 @@ import { GroupListPage } from 'src/pages/GroupListPage'
 import { GroupPage } from 'src/pages/GroupPage'
 import { FavoriteListPage } from 'src/pages/FavoriteListPage'
 import { NotFoundPage } from 'src/pages/NotFoundPage'
-import { AuthenticationForm } from 'src/pages/AuthenticationForm'
+
 import { RouteWithErrorBoundary } from 'src/components/RouteWithErrorBoundary'
 
 export const Router = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path={PathList.auth} element={<AuthenticationForm />} />
 				<Route path={PathList.home} element={<MainLayout />}>
 					<Route index element={<HomePage />} />
 					<Route
