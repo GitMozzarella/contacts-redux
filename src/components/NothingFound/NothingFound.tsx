@@ -7,7 +7,7 @@ import { PathList } from '../../router/PathList'
 
 export const NothingFound = () => {
 	const navigate = useNavigate()
-	const [timer, setTimer] = useState(999)
+	const [timer, setTimer] = useState(7)
 
 	useEffect(() => {
 		const interval = setInterval(() => {
